@@ -12,6 +12,7 @@ Use App\Http\Controllers\PortfolioController;
 Use App\Http\Controllers\ContactUsController;
 Use App\Http\Controllers\RegisteredUserController;
 Use App\Http\Controllers\DashboardController;
+use App\Http\Middleware\checkValid;
 
 
 // Route::get('/', function () {
@@ -29,13 +30,13 @@ Route::get('/shopDetail', [ShopdetailsController::class, 'index'])->name('shop-d
 //Route::get('/profile', [PortfolioController::class, 'index'])->name('profile');
 Route::get('/singleportfolio', [singleprotfolioController::class, 'index'])->name('portfolio');
 
-
-Route::get('/register', [RegisteredUserController::class, 'index'])->name('register');
+Route::get('/admin-dashboard', function () {
+    return view('admin.index');
+})->middleware(['auth', 'verified'])->name('admin-dashboard');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-//Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
