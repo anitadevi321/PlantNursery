@@ -13,6 +13,7 @@ Use App\Http\Controllers\ContactUsController;
 Use App\Http\Controllers\RegisteredUserController;
 Use App\Http\Controllers\DashboardController;
 use App\Http\Middleware\checkValid;
+use App\Http\Controllers\Auth\CategoryController;
 
 
 // Route::get('/', function () {
@@ -44,4 +45,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('add_categories', [CategoryController::class, 'index']);
 require __DIR__.'/auth.php';
+
+
+Route::get('/admin', function(){
+    return view('admin.index');
+});
+
+Route::get('/addCategory', [CategoryController::class, 'index'])->name('addCategory');
+Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+
+Route::get('/showCategories', [CategoryController::class, 'showCategories'])->name('showCategories');
+
+Route::get('/showEditPage/{id}', [CategoryController::class, 'showCategoryPage'])->name('showEditPage');
+Route::put('editCategory',[CategoryController::class, 'editCategory'])->name('categories.update');
+Route::get('/deleteCategory/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+
