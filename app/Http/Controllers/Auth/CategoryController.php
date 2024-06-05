@@ -83,8 +83,6 @@ class CategoryController extends Controller
                
             }
            
-           dd($categories);
-          
             $category->update([
                 'name' => $request->name,
                 'status' => $request->status??0,
