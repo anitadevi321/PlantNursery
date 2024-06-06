@@ -28,7 +28,7 @@
                             <input type="checkbox" class="form-check-input" name="status" id="status" value="1">
                             <label class="form-check-label" for="status">status</label>
                         </div>
-                        <button type="submit" class="btn btn-primary">Create Category</button>
+                        <button type="submit" class="btn bg-gradient-primary mt-4 ">Create Category</button>
                     </form>
                 </div>
             </div>

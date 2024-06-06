@@ -9,21 +9,22 @@ use App\Models\categories;
 
 class CategoryController extends Controller
 {
+    //show add category page
     public function index(){
         return view('admin.category.add_categories');
     }
 
+    // store category
     public function store(Request $request){
-        //dd($request);
         $credentials = $request->validate([
             'name' => 'required|string',
             'image' => 'required',
         ]);
 
-        $validation = Validator::make($request->all(), [
-            'name'=> 'required | string',
-            'img'=> 'required',
-       ]);
+    //     $validation = Validator::make($request->all(), [
+    //         'name'=> 'required | string',
+    //         'img'=> 'required',
+    //    ]);
         if($credentials)
         {
             $category= categories::create([
@@ -40,6 +41,7 @@ class CategoryController extends Controller
     }
 
 
+    // show all categories
     public function showCategories(){
         $categories = categories::all();
         
@@ -47,31 +49,21 @@ class CategoryController extends Controller
     }
 
 
-    public function destroy($id){
-        $category= categories::find($id);
-        if($category)
-        {
-            $category->delete();
-            return redirect()->route('showCategories');
-        }
-   
-    }
-
-
+    //show edit category page
     public function showCategoryPage($id){
         $category = categories::find($id);
         return view('admin.category.edit_categories', compact('category'));
     }
 
    
+    // edit categories
     public function editCategory(Request $request){
-       //dd($request);
         $categoryId= $request->cid;
         $credentials = $request->validate([
             'name' => 'required|string',
             //'image' => 'required',
         ]);
-        
+        $category = categories::find($categoryId)->pluck('image')->first();; 
         if($credentials)
         {  
             if($request->file('image'))
@@ -79,8 +71,7 @@ class CategoryController extends Controller
                 $image= $request->file('image')->getClientOriginalName();
             }
             else{
-                $image = categories::find($categoryId)->pluck('image')->first();;
-               
+                $image = categories::find($categoryId)->pluck('image')->first();;  
             }
            
             $category->update([
@@ -94,5 +85,17 @@ class CategoryController extends Controller
             return redirect()->route('categories.update', '$categoryId')->withInput()->withErrors($credentials);
         }
       
+    }
+
+
+    // destroy categories
+    public function destroy($id){
+        $category= categories::find($id);
+        if($category)
+        {
+            $category->delete();
+            return redirect()->route('showCategories');
+        }
+   
     }
 }

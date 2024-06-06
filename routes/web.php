@@ -14,6 +14,7 @@ Use App\Http\Controllers\RegisteredUserController;
 Use App\Http\Controllers\DashboardController;
 use App\Http\Middleware\checkValid;
 use App\Http\Controllers\Auth\CategoryController;
+use App\Http\Controllers\Auth\ProductController;
 
 
 // Route::get('/', function () {
@@ -62,3 +63,10 @@ Route::get('/showEditPage/{id}', [CategoryController::class, 'showCategoryPage']
 Route::put('editCategory',[CategoryController::class, 'editCategory'])->name('categories.update');
 Route::get('/deleteCategory/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
+
+Route::get('/addproduct', [ProductController::class, 'index'])->name('addProduct');
+Route::post('add_product',[ProductController::class, 'store'])->name('product.store');
+Route::get('/showProducts', [ProductController::class, 'show_products'])->name('showProducts');
+Route::get('/showEdit/{id}', [ProductController::class, 'showProductapage'])->name('showProductEdit');
+
+Route::get('/deleteProduct/{productId}', [ProductController::class, 'destroy'])->name('product.destroy');

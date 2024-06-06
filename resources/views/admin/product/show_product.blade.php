@@ -11,9 +11,12 @@
                     <thead>
                         <tr>
                             <th>sr.no</th>
-                            <th>Name</th>
+                            <th>Category name</th>
+                            <th>Product Name</th>
                             <th>Image</th>
                             <th>Status</th>
+                            <th>Price</th>
+                            <th>Stock</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -23,13 +26,17 @@
                         @php
                         $sr= 1;
                         @endphp
-                        @foreach($categories as $category)
+                        @foreach($products as $product)
                         <tr>
                             <td>{{ $sr }}</td>
-                            <td>{{ $category->name }}</td>
-                            <td>{{ $category->image }}</td>
+                            @if(isset($categoryNames[$product->category_id]))
+                            <td>{{ $categoryNames[$product->category_id] }}</td>
+                            @endif
+                            
+                            <td>{{ $product->name }}</td>
+                            <td>{{ $product->image }}</td>
                             @php
-                            if($category->status == 1){
+                            if($product->status == 1){
                             @endphp
                             <td class="text-success">Active</td>
                             @php
@@ -39,10 +46,11 @@
                             @php
                             }
                             @endphp
-
-                            <td><a href="{{ route('showEditPage', $category->id ) }}">Edit</a></td>
+                            <td>{{ $product->price }}</td>
+                            <td>{{ $product->stock }}</td>
+                            <td><a href="{{ route('showProductEdit', $product->id ) }}">Edit</a></td>
                             <td>
-                                <a href="{{ route('category.destroy', $category->id) }}">Delete</a>
+                                <a href="{{ route('product.destroy', $product->id) }}">Delete</a>
                             </td>
                         </tr>
                         @php
