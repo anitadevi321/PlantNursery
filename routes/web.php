@@ -59,7 +59,7 @@ Route::post('/categories', [CategoryController::class, 'store'])->name('categori
 
 Route::get('/showCategories', [CategoryController::class, 'showCategories'])->name('showCategories');
 
-Route::get('/showEditPage/{id}', [CategoryController::class, 'showCategoryPage'])->name('showEditPage');
+Route::get('/editCategory/{id}', [CategoryController::class, 'showCategoryPage'])->name('showEditPage');
 Route::put('editCategory',[CategoryController::class, 'editCategory'])->name('categories.update');
 Route::get('/deleteCategory/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
@@ -67,6 +67,6 @@ Route::get('/deleteCategory/{id}', [CategoryController::class, 'destroy'])->name
 Route::get('/addproduct', [ProductController::class, 'index'])->name('addProduct');
 Route::post('add_product',[ProductController::class, 'store'])->name('product.store');
 Route::get('/showProducts', [ProductController::class, 'show_products'])->name('showProducts');
-Route::get('/showEdit/{id}', [ProductController::class, 'showProductapage'])->name('showProductEdit');
+Route::get('/editProduct/{id}', [ProductController::class, 'showEditProductapage'])->name('showProductEdit');
 
 Route::get('/deleteProduct/{productId}', [ProductController::class, 'destroy'])->name('product.destroy');

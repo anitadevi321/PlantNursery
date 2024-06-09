@@ -14,39 +14,39 @@ class CategoryController extends Controller
         return view('admin.category.add_categories');
     }
 
+
     // store category
     public function store(Request $request){
         $credentials = $request->validate([
             'name' => 'required|string',
             'image' => 'required',
         ]);
-
-    //     $validation = Validator::make($request->all(), [
-    //         'name'=> 'required | string',
-    //         'img'=> 'required',
-    //    ]);
-        if($credentials)
-        {
-            if($request->file('image') != '')
+        
+        try{
+            if($credentials)
             {
-                $imageName = time().'.'.$request->image->extension();
-                $request->image->move(public_path('upload_images/category'), $imageName);
+                if($request->file('image') != '')
+                {
+                    $imageName = time().'.'.$request->image->extension();
+                    $request->image->move(public_path('upload_images/category'), $imageName);
+                }
+    
+                $category= categories::create([
+                    "name" => $request->name,
+                    "image" => $imageName,
+                    "status" => $request->status??0
+                ]);
+    
+                return redirect()->route('showCategories');
             }
-
-            $category= categories::create([
-                "name" => $request->name,
-                "image" => $imageName,
-                "status" => $request->status??0
-            ]);
-
-            
-
-            
-            return redirect()->route('showCategories');
+            else{
+                return redirect()->back()->withInput()->withErrors($credentials);
+            }
+        }catch(\Exception $e){
+            Log::error('Error adding category: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Failed to add category. Please try again.']);
         }
-        else{
-            return redirect()->route('addCategory')->withInput()->withErrors($credentials);
-        }
+      
     }
 
 
@@ -60,10 +60,15 @@ class CategoryController extends Controller
 
     //show edit category page
     public function showCategoryPage($id){
-        $category = categories::find($id);
-        return view('admin.category.edit_categories', compact('category'));
+        try{
+            $category = categories::find($id);
+            return view('admin.category.edit_categories', compact('category'));
+        }catch (\Exception $e) {
+            Log::error('Error fetching category: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Failed to find the category. Please try again.']);
+        }
+     
     }
-
    
     // edit categories
     public function editCategory(Request $request){
@@ -105,12 +110,17 @@ class CategoryController extends Controller
 
     // destroy categories
     public function destroy($id){
-        $category= categories::find($id);
-        if($category)
-        {
-            $category->delete();
-            return redirect()->route('showCategories');
+        try{
+            $category= categories::find($id);
+            if($category)
+            {
+                $category->delete();
+                return redirect()->route('showCategories');
+            }
+        }catch (\Exception $e) {
+            Log::error('Error fetching category: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Failed to find the category. Please try again.']);
         }
-   
+       
     }
 }
