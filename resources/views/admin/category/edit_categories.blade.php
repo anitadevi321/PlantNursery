@@ -21,7 +21,7 @@
                     <div class="mb-3">
                         <label for="name">Upload image</label>
                         <input type="file" name="image" id="image" value="{{ $category->image}}"
-                            class="form-control @error('image') is-invalid @enderror">
+                            class="form-control @error('image') is-invalid @enderror"><img src="{{ asset('upload_images/category/'.$category->image)}}" with="100px" height="100px">
                         @error('image')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror

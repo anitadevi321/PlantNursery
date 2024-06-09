@@ -40,16 +40,24 @@ class ProductController extends Controller
 
                 if($validation->passes())
                 {
+                    if($request->file('image') != '')
+                    {
+                        $imageName = time().'.'.$request->image->extension();
+                        $request->image->move(public_path('upload_images/products'), $imageName);
+                    }
+
                     $product= product::create([
                         'category_id' => $request->category,
                         'name' => $request->name,
-                        "image" => $request->file('image')->getClientOriginalName(),
+                        "image" => $imageName,
                         'stock' => $request->stock,
                         'price' => $request->price,
                         'description'=> $request->description,
                         'status' => $request->status??0,
                         'meta' => $combinedFieldsJson, 
                     ]);
+
+                    return redirect()->route('showProducts');
                 }
                if($validation->fails())
                {

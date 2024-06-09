@@ -27,7 +27,11 @@
                         <tr>
                             <td>{{ $sr }}</td>
                             <td>{{ $category->name }}</td>
-                            <td>{{ $category->image }}</td>
+                            <td>
+                                @if($category->image != '')
+                                    <img src="{{ asset('upload_images/category/'.$category->image)}}" with="100px" height="100px">
+                                @endif
+                            </td>
                             @php
                             if($category->status == 1){
                             @endphp

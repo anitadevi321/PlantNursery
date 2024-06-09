@@ -34,7 +34,11 @@
                             @endif
                             
                             <td>{{ $product->name }}</td>
-                            <td>{{ $product->image }}</td>
+                            <td>
+                                @if($product->image != '')
+                                    <img src="{{ asset('upload_images/products/'.$product->image) }}" with="100px" height="100px">
+                                @endif
+                            </td>
                             @php
                             if($product->status == 1){
                             @endphp

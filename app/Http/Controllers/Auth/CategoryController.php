@@ -27,11 +27,20 @@ class CategoryController extends Controller
     //    ]);
         if($credentials)
         {
+            if($request->file('image') != '')
+            {
+                $imageName = time().'.'.$request->image->extension();
+                $request->image->move(public_path('upload_images/category'), $imageName);
+            }
+
             $category= categories::create([
                 "name" => $request->name,
-                "image" => $request->file('image')->getClientOriginalName(),
+                "image" => $imageName,
                 "status" => $request->status??0
             ]);
+
+            
+
             
             return redirect()->route('showCategories');
         }
@@ -63,19 +72,25 @@ class CategoryController extends Controller
             'name' => 'required|string',
             //'image' => 'required',
         ]);
-        $category = categories::find($categoryId)->pluck('image')->first();; 
+        $category = categories::find($categoryId); 
         if($credentials)
         {  
-            if($request->file('image'))
-            {
-                $image= $request->file('image')->getClientOriginalName();
-            }
-            else{
-                $image = categories::find($categoryId)->pluck('image')->first();;  
-            }
-           
+            // if($request->file('image'))
+            // {
+            //     $imageName = time().'.'.$request->image->extension();
+            //     //dd($imageName);
+            //     $request->image->move(public_path('upload_images/category'), $imageName);
+            //     //$image= $request->file('image')->getClientOriginalName();
+            // }
+            // else{
+            //     $imageName = categories::find($categoryId)->pluck('image')->first();
+            //     //dd($imageName);  
+            // }
+            $imageName = categories::find($categoryId)->pluck('image')->first();
+            //dd($imageName);
             $category->update([
                 'name' => $request->name,
+                'image' => $imageName,
                 'status' => $request->status??0,
             ]);
             return redirect()->route('showCategories');
