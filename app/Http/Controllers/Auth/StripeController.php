@@ -13,7 +13,6 @@ class StripeController extends Controller
         return view('stripe.checkout');
     }
      
-      
     public function createCharge(Request $request)
     {
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
