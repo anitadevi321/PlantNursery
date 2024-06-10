@@ -168,6 +168,5 @@ class ProductController extends Controller
             Log::error('Error fetching product: ' . $e->getMessage());
             return redirect()->back()->withErrors(['error' => 'Failed to find the product. Please try again.']);
         }
-       
     }
 }

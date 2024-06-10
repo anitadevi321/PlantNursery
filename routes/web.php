@@ -15,7 +15,7 @@ Use App\Http\Controllers\DashboardController;
 use App\Http\Middleware\checkValid;
 use App\Http\Controllers\Auth\CategoryController;
 use App\Http\Controllers\Auth\ProductController;
-
+use App\Http\Controllers\Auth\StripeController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -71,3 +71,10 @@ Route::get('/editProduct/{id}', [ProductController::class, 'showEditProductapage
 Route::put('/editProduct', [ProductController::class, 'editProduct'])->name('EditProduct');
 
 Route::get('/deleteProduct/{productId}', [ProductController::class, 'destroy'])->name('product.destroy');
+
+Route::get('/payment', function(){
+    return view('stripe.payment');
+});
+
+Route::get('stripe', [StripeController::class, 'index']);
+Route::post('stripe/create-charge', [StripeController::class, 'createCharge'])->name('stripe.create-charge');
