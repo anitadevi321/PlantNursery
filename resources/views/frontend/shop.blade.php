@@ -1,6 +1,13 @@
 @extends('main')
 
 @section('content')
+@php
+if(isset($productWithCategory))
+{
+    echo $productWithCategory;
+}
+
+@endphp
     <!-- ##### Breadcrumb Area Start ##### -->
     <div class="breadcrumb-area">
         <!-- Top Breadcrumb Area -->
@@ -85,14 +92,21 @@
                                     <label class="custom-control-label" for="customCheck2">All plants <span class="text-muted">(4)</span></label>
                                 </div>
                                 @foreach($categories as $category)
-                                <!-- <a href="{{ route('sop_single', $category->id) }}">{{ $category->name}}</a> -->
+                                    @php
+                                    $count=0;
+                                        foreach($products as $product){
+                                            if($category->id == $product->category_id)
+                                            {
+                                               $count++;
+                                            }
+                                        }
+                                    @endphp
+                                    
                                 <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                     <input type="checkbox" class="custom-control-input" id="cid" name="cid" value="{{ $category->id }}">
-                                    <label class="custom-control-label" for="customCheck1">{{ $category->name}} <span class="text-muted">(2)</span></label>
+                                    <label class="custom-control-label" for="customCheck1"><a href="{{ route('shop_single', $category->id) }}">{{ $category->name}}</a><span class="text-muted">{{ $count }}</span></label>
                                 </div>
                                  @endforeach   
-                                 
-                                
                                 </div>  
                         </div>
 
@@ -136,7 +150,7 @@
                                 <!-- Single Best Seller Products -->
                                 <div class="single-best-seller-product d-flex align-items-center">
                                     <div class="product-thumbnail">
-                                        <a href="shop-details.html"><img src="img/bg-img/4.jpg" alt=""></a>
+                                        <a href="shop-details.html"><img src="../img/bg-img/4.jpg" alt=""></a>
                                     </div>
                                     <div class="product-info">
                                         <a href="shop-details.html">Cactus Flower</a>
@@ -154,7 +168,7 @@
                                 <!-- Single Best Seller Products -->
                                 <div class="single-best-seller-product d-flex align-items-center">
                                     <div class="product-thumbnail">
-                                        <a href="shop-details.html"><img src="img/bg-img/5.jpg" alt=""></a>
+                                        <a href="shop-details.html"><img src="../img/bg-img/5.jpg" alt=""></a>
                                     </div>
                                     <div class="product-info">
                                         <a href="shop-details.html">Tulip Flower</a>

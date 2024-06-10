@@ -7,23 +7,30 @@ use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
-    public function index(){
+    public function index($id = null){
         $categories= categories::all();
-        $products;
-        // foreach($categories as $category)
-        // {
-        //     print_r($category);
-        //     // dd($category);
-        //     // $category_id= $category->id;
-        //     // dd($category_id);
-        //    //$products = product::where('category_id', $category_id)->count();
-        // }
-    
-       return view('frontend.shop', compact('categories'));
+        $category_id= $categories->pluck('id');
+
+        $products= product::whereIn('category_id', $category_id)->get();
+        // return view('frontend.shop', compact('categories', 'products'));
+
+        if(isset($id))
+        {
+            $productWithCategory= product::where('category_id', $id)->get();
+            return view('frontend.shop', compact('products', 'categories', 'productWithCategory'));
+        }
+        else{
+        // $categories= categories::all();
+        // $category_id= $categories->pluck('id');
+
+        // $products= product::whereIn('category_id', $category_id)->get();
+        return view('frontend.shop', compact('categories', 'products'));
+        }
     }
 
     public function fetch_single($id){
-        $categories= categories::find($id);
-        return view('frontend.shop', compact('categories'));
+        $categories= categories::all();
+        $products= product::where('category_id', $id)->get();
+        return view('frontend.shop', compact('products', 'categories'));
     }
 }

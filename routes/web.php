@@ -25,7 +25,7 @@ use App\Http\Controllers\Auth\StripeController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
-Route::get('/shop_single/{id}', [ShopController::class, 'fetch_single'])->name('sop_single');
+Route::get('/shop_single/{id}', [ShopController::class, 'index'])->name('shop_single');
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::get('/contact', [ContactUsController::class, 'index'])->name('contact');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
