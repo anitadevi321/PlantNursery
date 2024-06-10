@@ -10,8 +10,9 @@
     <div class="card z-index-2 ">
         <div class="card-body">
             <div class="row">
-                <form action="" enctype="multipart/form-data" method="post">
+                <form action="{{ route('EditProduct') }}" enctype="multipart/form-data" method="post">
                     @csrf
+                    @method('PUT')
                     <div class="mb-3">
                         <label for="category" class="form-label">Category</label>
                         <select class="form-control @error('category') is-invalid @enderror" id="category"
@@ -40,7 +41,7 @@
                     <div class="mb-3">
                         <label for="image">Upload image</label>
                         <input type="file" name="image" id="image"
-                            class="form-control @error('image') is-invalid @enderror" value="{{ $product->price }}">
+                            class="form-control @error('image') is-invalid @enderror" value="{{ $product->price }}"><img src="{{ asset('upload_images/products/'.$product->image)}}" with="100px" height="100px">
                         @error('image')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -97,7 +98,7 @@
                         <label class="form-check-label" for="status">status</label>
                     </div>
                     <input type="hidden" name="id" value="{{ $product->id }}">
-                    <button type="submit" class="btn bg-gradient-primary mt-4 ">Create Category</button>
+                    <button type="submit" class="btn btn-primary">Edit product</button>
                 </form>
             </div>
         </div>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 use App\Models\categories;
 
 class CategoryController extends Controller
@@ -14,14 +16,12 @@ class CategoryController extends Controller
         return view('admin.category.add_categories');
     }
 
-
     // store category
     public function store(Request $request){
         $credentials = $request->validate([
             'name' => 'required|string',
             'image' => 'required',
         ]);
-        
         try{
             if($credentials)
             {
@@ -36,7 +36,6 @@ class CategoryController extends Controller
                     "image" => $imageName,
                     "status" => $request->status??0
                 ]);
-    
                 return redirect()->route('showCategories');
             }
             else{
@@ -73,26 +72,25 @@ class CategoryController extends Controller
     // edit categories
     public function editCategory(Request $request){
         $categoryId= $request->cid;
+       
         $credentials = $request->validate([
             'name' => 'required|string',
-            //'image' => 'required',
         ]);
         $category = categories::find($categoryId); 
         if($credentials)
         {  
-            // if($request->file('image'))
-            // {
-            //     $imageName = time().'.'.$request->image->extension();
-            //     //dd($imageName);
-            //     $request->image->move(public_path('upload_images/category'), $imageName);
-            //     //$image= $request->file('image')->getClientOriginalName();
-            // }
-            // else{
-            //     $imageName = categories::find($categoryId)->pluck('image')->first();
-            //     //dd($imageName);  
-            // }
-            $imageName = categories::find($categoryId)->pluck('image')->first();
-            //dd($imageName);
+            if($request->hasFile('image'))
+            {
+                $oldpath= public_path('upload_images/category/' . $category->image);
+                if (File::exists($oldpath)) {
+                    File::delete($oldpath);
+                    $imageName = time().'.'.$request->image->extension();
+                   $request->image->move(public_path('upload_images/category'), $imageName);
+                } 
+            }
+            else{
+                $imageName = $category->image;
+            }
             $category->update([
                 'name' => $request->name,
                 'image' => $imageName,
@@ -106,7 +104,6 @@ class CategoryController extends Controller
         }
       
     }
-
 
     // destroy categories
     public function destroy($id){

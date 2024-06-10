@@ -3,7 +3,7 @@
 @section('content')
 
     <!-- ##### Header Area Start ##### -->
-    @include('include.header')
+   
     <!-- ##### Header Area End ##### -->
 
     <!-- ##### Breadcrumb Area Start ##### -->

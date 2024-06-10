@@ -68,5 +68,6 @@ Route::get('/addproduct', [ProductController::class, 'index'])->name('addProduct
 Route::post('add_product',[ProductController::class, 'store'])->name('product.store');
 Route::get('/showProducts', [ProductController::class, 'show_products'])->name('showProducts');
 Route::get('/editProduct/{id}', [ProductController::class, 'showEditProductapage'])->name('showProductEdit');
+Route::put('/editProduct', [ProductController::class, 'editProduct'])->name('EditProduct');
 
 Route::get('/deleteProduct/{productId}', [ProductController::class, 'destroy'])->name('product.destroy');

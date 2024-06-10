@@ -7,7 +7,7 @@
         <div class="card z-index-2 ">
             <div class="card-body">
                 <div class="row">
-                    <form action="{{ route('categories.store') }}" enctype="multipart/form-data" method="post">
+                    <form action="{{ route('categories.store') }}" id="category_form" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
@@ -35,4 +35,26 @@
         </div>
     <!--/div-->
 </div>
+<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function(){
+        $('#category_form').submit(function(){
+            var form = $('#category_form')[0];
+            var data= new FormData(form);
+            
+            $.ajax({
+                type: "Post",
+                url: "{{ route('categories.store') }}",
+                data: data,
+                success: function(data){
+                    alert('error');
+                },
+                error: function(response){
+                    alert('error');
+                    //document.write(response);
+                }
+            });
+        });
+    });
+</script> -->
 @endsection('content')
