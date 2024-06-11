@@ -7,6 +7,7 @@
     <div class="card z-index-2 ">
         <div class="card-body">
             <div class="row">
+                
                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
@@ -43,7 +44,6 @@
                             @php
                             }
                             @endphp
-
                             <td><a href="{{ route('showEditPage', $category->id ) }}">Edit</a></td>
                             <td>
                                 <a href="{{ route('category.destroy', $category->id) }}">Delete</a>

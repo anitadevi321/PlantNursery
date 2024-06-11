@@ -46,9 +46,7 @@
   <script src="../backend_assets/assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../backend_assets/assets/js/plugins/chartjs.min.js"></script>
  
-  <script>
-    new DataTable('#example');
-  </script>
+  
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -66,6 +64,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap4.js"></script>
+<script>
+    new DataTable('#example');
+  </script>
 
 
 

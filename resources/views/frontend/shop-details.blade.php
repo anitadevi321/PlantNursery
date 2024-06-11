@@ -73,7 +73,7 @@
 
                             <div class="cart--area d-flex flex-wrap align-items-center">
                                 <!-- Add to Cart Form -->
-                                <form class="cart clearfix d-flex align-items-center" method="post">
+                                <form  class="cart clearfix d-flex align-items-center" method="post">
                                     <div class="quantity">
                                         <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-minus" aria-hidden="true"></i></span>
                                         <input type="number" class="qty-text" id="qty" step="1" min="1" max="12" name="quantity" value="1">

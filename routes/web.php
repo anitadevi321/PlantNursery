@@ -27,6 +27,7 @@ Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/shop/{id?}', [ShopController::class, 'index'])->name('shop');
 Route::get('/shop_sorting/{value}', [ShopController::class, 'fetchWithSorting'])->name('shop_sorting');
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
+// Route::post('/add_to_cart', [CartController::class, 'store'])->name('addcart');
 Route::get('/contact', [ContactUsController::class, 'index'])->name('contact');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 //Route::get('/shopDetail', [ShopdetailsController::class, 'index'])->name('shop-details');
