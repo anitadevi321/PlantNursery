@@ -83,11 +83,11 @@
                                             <li><a href="">Shop</a>
                                                 <ul class="dropdown">
                                                     <li><a href="{{ route('shop') }}">Shop</a></li>
-                                                    <li><a href="{{ route('shop-details') }}">Shop Details</a></li>
                                                     <li><a href="{{ route('cart') }}">Shopping Cart</a></li>
                                                     <li><a href="{{ route('checkout') }}">Checkout</a></li>
                                                 </ul>
-                                            </li>
+                                            </li>  
+
                                             <li><a href="">Portfolio</a>
                                                 <ul class="dropdown">
                                                     <li><a href="{{ route('portfolio') }}">Portfolio</a></li>
