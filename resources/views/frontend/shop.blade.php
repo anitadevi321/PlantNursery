@@ -6,7 +6,7 @@
 <div class="breadcrumb-area">
     <!-- Top Breadcrumb Area -->
     <div class="top-breadcrumb-area bg-img bg-overlay d-flex align-items-center justify-content-center"
-        style="background-image: url(img/bg-img/24.jpg);">
+        style="background-image: url(../img/bg-img/24.jpg);">
         <h2>Shop</h2>
     </div>
 
@@ -98,7 +98,7 @@
                                     name="cid[]" value="{{ $item['category']->name }}">
                                 <label class="custom-control-label" for="cid{{ $item['category']->id }}">
                                     <a
-                                        href="{{ route('shop_single', $item['category']->id) }}">{{ $item['category']->name }}</a>
+                                        href="{{ route('shop', $item['category']->id) }}">{{ $item['category']->name }}</a>
                                     <span class="text-muted">({{ $item['product_count'] }})</span>
                                 </label>
                             </div>
@@ -119,22 +119,22 @@
                             <!-- Single Checkbox -->
                             <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck8">
-                                <label class="custom-control-label" for="customCheck8">Alphabetically, A-Z</label>
+                                <label class="custom-control-label" for="customCheck8"><a href="{{ route('shop_sorting', 'Alphabetic_Asc') }}">Alphabetically, A-Z </a></label>
                             </div>
                             <!-- Single Checkbox -->
                             <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck9">
-                                <label class="custom-control-label" for="customCheck9">Alphabetically, Z-A</label>
+                                <label class="custom-control-label" for="customCheck9"><a href="{{ route('shop_sorting', 'Alphabetic_desc')}}">Alphabetically, Z-A</a></label>
                             </div>
                             <!-- Single Checkbox -->
                             <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck10">
-                                <label class="custom-control-label" for="customCheck10">Price: low to high</label>
+                                <label class="custom-control-label" for="customCheck10"><a href="{{ route('shop_sorting', 'Numarically_Asc')}}">Price: low to high</a></label>
                             </div>
                             <!-- Single Checkbox -->
                             <div class="custom-control custom-checkbox d-flex align-items-center">
                                 <input type="checkbox" class="custom-control-input" id="customCheck11">
-                                <label class="custom-control-label" for="customCheck11">Price: high to low</label>
+                                <label class="custom-control-label" for="customCheck11"><a href="{{ route('shop_sorting', 'Numarically_desc')}}">Price: high to low</a></label>
                             </div>
                         </div>
                     </div>
@@ -183,7 +183,7 @@
                             <!-- Single Best Seller Products -->
                             <div class="single-best-seller-product d-flex align-items-center">
                                 <div class="product-thumbnail">
-                                    <a href="shop-details.html"><img src="img/bg-img/34.jpg" alt=""></a>
+                                    <a href="shop_details.html"><img src="img/bg-img/34.jpg" alt=""></a>
                                 </div>
                                 <div class="product-info">
                                     <a href="shop-details.html">Recuerdos Plant</a>
@@ -223,13 +223,13 @@
                                     </div>
                                     <div class="product-meta d-flex">
                                         <a href="#" class="wishlist-btn"><i class="icon_heart_alt"></i></a>
-                                        <a href="cart.html" class="add-to-cart-btn">Add to cart</a>
+                                        <a href="cart.html" class="add-to-cart-btn">View detail</a>
                                         <a href="#" class="compare-btn"><i class="arrow_left-right_alt"></i></a>
                                     </div>
                                 </div>
                                 <!-- Product Info -->
                                 <div class="product-info mt-15 text-center">
-                                    <a href="shop-details.html">
+                                    <a href="{{ route('shop_details', $products->id) }}">
                                         <p>{{ $products->name }}</p>
                                     </a>
                                     <h6>${{ $products->price}}</h6>

@@ -5,7 +5,7 @@
     <!-- ##### Breadcrumb Area Start ##### -->
     <div class="breadcrumb-area">
         <!-- Top Breadcrumb Area -->
-        <div class="top-breadcrumb-area bg-img bg-overlay d-flex align-items-center justify-content-center" style="background-image: url(img/bg-img/24.jpg);">
+        <div class="top-breadcrumb-area bg-img bg-overlay d-flex align-items-center justify-content-center" style="background-image: url(../img/bg-img/24.jpg);">
             <h2>SHOP DETAILS</h2>
         </div>
 
@@ -36,18 +36,18 @@
                             <div id="product_details_slider" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <a class="product-img" href="img/bg-img/49.jpg" title="Product Image">
-                                        <img class="d-block w-100" src="img/bg-img/49.jpg" alt="1">
+                                        <a class="product-img" href="{{ asset('upload_images/products/'.$product->image)}}" title="Product Image">
+                                        <img class="d-block w-100" src="{{ asset('upload_images/products/'.$product->image)}}" alt="1">
                                     </a>
                                     </div>
                                     <div class="carousel-item">
-                                        <a class="product-img" href="img/bg-img/49.jpg" title="Product Image">
-                                        <img class="d-block w-100" src="img/bg-img/49.jpg" alt="1">
+                                        <a class="product-img" href="{{ asset('upload_images/products/'.$product->image)}}" title="Product Image">
+                                        <img class="d-block w-100" src="{{ asset('upload_images/products/'.$product->image)}}" alt="1">
                                     </a>
                                     </div>
                                     <div class="carousel-item">
-                                        <a class="product-img" href="img/bg-img/49.jpg" title="Product Image">
-                                        <img class="d-block w-100" src="img/bg-img/49.jpg" alt="1">
+                                        <a class="product-img" href="{{ asset('upload_images/products/'.$product->image)}}" title="Product Image">
+                                        <img class="d-block w-100" src="{{ asset('upload_images/products/'.$product->image)}}" alt="1">
                                     </a>
                                     </div>
                                 </div>
@@ -65,8 +65,8 @@
 
                     <div class="col-12 col-md-6">
                         <div class="single_product_desc">
-                            <h4 class="title">Recuerdos Plant</h4>
-                            <h4 class="price">$9.99</h4>
+                            <h4 class="title"><span>{{ $product->name }}</span></h4>
+                            <h4 class="price">${{ $product->price}}</h4>
                             <div class="short_overview">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pellem malesuada in nibh selama euismod. Curabitur a rhoncus dui. Nunc lobortis cursus magna utrum faucibus. Vivamus justo nibh, pharetra non risus accumsan, tincidunt suscipit leo.</p>
                             </div>
@@ -90,7 +90,7 @@
 
                             <div class="products--meta">
                                 <p><span>SKU:</span> <span>CT201807</span></p>
-                                <p><span>Category:</span> <span>Outdoor Plants</span></p>
+                                <p><span>Category:</span> <span>{{ $category_name }}</span></p>
                                 <p><span>Tags:</span> <span>plants, green, cactus </span></p>
                                 <p>
                                     <span>Share on:</span>

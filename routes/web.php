@@ -24,12 +24,13 @@ use App\Http\Controllers\Auth\StripeController;
 /// web routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
-Route::get('/shop', [ShopController::class, 'index'])->name('shop');
-Route::get('/shop_single/{id}', [ShopController::class, 'index'])->name('shop_single');
+Route::get('/shop/{id?}', [ShopController::class, 'index'])->name('shop');
+Route::get('/shop_sorting/{value}', [ShopController::class, 'fetchWithSorting'])->name('shop_sorting');
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::get('/contact', [ContactUsController::class, 'index'])->name('contact');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
-Route::get('/shopDetail', [ShopdetailsController::class, 'index'])->name('shop-details');
+//Route::get('/shopDetail', [ShopdetailsController::class, 'index'])->name('shop-details');
+Route::get('/shopDetail/{id}', [ShopdetailsController::class, 'index'])->name('shop_details');
 //Route::get('/profile', [PortfolioController::class, 'index'])->name('profile');
 Route::get('/singleportfolio', [singleprotfolioController::class, 'index'])->name('portfolio');
 

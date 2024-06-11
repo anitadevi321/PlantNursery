@@ -78,7 +78,6 @@
                                             <li><a href="{{ route('shop') }}">Shop</a>
                                                 <ul class="dropdown">
                                                     <li><a href="{{ route('shop') }}">Shop</a></li>
-                                                    <li><a href="{{ route('shop-details') }}">Shop Details</a></li>
                                                     <li><a href="{{ route('cart') }}">Shopping Cart</a></li>
                                                     <li><a href="{{ route('checkout') }}">Checkout</a></li>
                                                 </ul>
