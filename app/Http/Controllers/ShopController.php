@@ -9,11 +9,22 @@ class ShopController extends Controller
 {
     public function index($id = null){
         $categories= categories::all();
-        $category_id= $categories->pluck('id');
+        $category_with_product = array();
 
-        $products= product::whereIn('category_id', $category_id)->get();
-        // return view('frontend.shop', compact('categories', 'products'));
+        foreach ($categories as $category) {
+            $category_id = $category->id;
 
+            $products = Product::where('category_id', $category_id)->get();
+
+            // Store the category and its products in the array
+            $category_with_product[] = [
+                'category' => $category,
+                'products' => $products,
+                'product_count' => $products->count()
+            ];
+        }
+        return view('frontend.shop', compact('category_with_product'));
+        
         if(isset($id))
         {
             $productWithCategory= product::where('category_id', $id)->get();
