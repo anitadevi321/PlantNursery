@@ -15,7 +15,8 @@
             <div class="col-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('shop') }}"><i class="fa fa-home"></i> Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('shop') }}"><i class="fa fa-home"></i> Home</a>
+                        </li>
                         <li class="breadcrumb-item active" aria-current="page">Shop</li>
                     </ol>
                 </nav>
@@ -97,8 +98,7 @@
                                 <input type="checkbox" class="custom-control-input" id="cid{{ $item['category']->id }}"
                                     name="cid[]" value="{{ $item['category']->name }}">
                                 <label class="custom-control-label" for="cid{{ $item['category']->id }}">
-                                    <a
-                                        href="{{ route('shop', $item['category']->id) }}">{{ $item['category']->name }}</a>
+                                    <a href="{{ route('shop', $item['category']->id) }}">{{ $item['category']->name }}</a>
                                     <span class="text-muted">({{ $item['product_count'] }})</span>
                                 </label>
                             </div>
@@ -119,22 +119,30 @@
                             <!-- Single Checkbox -->
                             <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck8">
-                                <label class="custom-control-label" for="customCheck8"><a href="{{ route('shop_sorting', 'Alphabetic_Asc') }}">Alphabetically, A-Z </a></label>
+                                <label class="custom-control-label" for="customCheck8"><a
+                                        href="{{ route('shop_sorting', 'Alphabetic_Asc') }}">Alphabetically, A-Z
+                                    </a></label>
                             </div>
                             <!-- Single Checkbox -->
                             <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck9">
-                                <label class="custom-control-label" for="customCheck9"><a href="{{ route('shop_sorting', 'Alphabetic_desc')}}">Alphabetically, Z-A</a></label>
+                                <label class="custom-control-label" for="customCheck9"><a
+                                        href="{{ route('shop_sorting', 'Alphabetic_desc')}}">Alphabetically,
+                                        Z-A</a></label>
                             </div>
                             <!-- Single Checkbox -->
                             <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck10">
-                                <label class="custom-control-label" for="customCheck10"><a href="{{ route('shop_sorting', 'Numarically_Asc')}}">Price: low to high</a></label>
+                                <label class="custom-control-label" for="customCheck10"><a
+                                        href="{{ route('shop_sorting', 'Numarically_Asc')}}">Price: low to
+                                        high</a></label>
                             </div>
                             <!-- Single Checkbox -->
                             <div class="custom-control custom-checkbox d-flex align-items-center">
                                 <input type="checkbox" class="custom-control-input" id="customCheck11">
-                                <label class="custom-control-label" for="customCheck11"><a href="{{ route('shop_sorting', 'Numarically_desc')}}">Price: high to low</a></label>
+                                <label class="custom-control-label" for="customCheck11"><a
+                                        href="{{ route('shop_sorting', 'Numarically_desc')}}">Price: high to
+                                        low</a></label>
                             </div>
                         </div>
                     </div>
@@ -209,7 +217,7 @@
                     <div class="row">
 
                         <!-- Single Product Area -->
-                        
+
                         @foreach($AllProducts as $products)
                         <div class="col-12 col-sm-6 col-lg-4">
                             <div class="single-product-area mb-50">
@@ -235,30 +243,50 @@
                                     <h6>${{ $products->price}}</h6>
                                 </div>
                             </div>
-                    </div>
-                    @endforeach
+                        </div>
+                        @endforeach
 
-                    <!-- Pagination -->
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-right"></i></a>
-                            </li>
-                        </ul>
-                    </nav>
+                        <!-- Pagination -->
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#"><i
+                                            class="fa fa-angle-right"></i></a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </section>
 <!-- ##### Shop Area End ##### -->
 <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
 $(document).ready(function() {
-    $('#cid').click(function() {
-        alert('hello');
+    $('.category_link').click(function(event) {
+        event.preventDefault();
+        var categoryId = $(this).data('id');
+        ///alert(categoryId);
+
+        $.ajax({
+            url: '{{ route("shop") }}', // Replace with your endpoint
+            type: 'GET', // or 'POST' if needed
+            data: {
+                id: categoryId
+            },
+            success: function(response) {
+                // Handle the response from the server
+                console.log('Success:', response);
+                // Optionally redirect or update the page content
+            },
+            error: function(error) {
+                // Handle any errors
+                console.log('Error:', error);
+            }
+        });
     });
 });
 </script> -->

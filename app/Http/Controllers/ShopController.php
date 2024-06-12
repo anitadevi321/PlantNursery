@@ -15,7 +15,8 @@ class ShopController extends Controller
     public function __construct()
     {
         $this->categories = Categories::all();
-        $this->AllProducts = Product::limit(9)->get();
+        $this->AllProducts = Product::paginate(5);
+        //$this->AllProducts = Product::limit(9)->get();
         $this->AllProductCount = Product::count();
 
         $this->category_with_product = [];
@@ -47,7 +48,7 @@ class ShopController extends Controller
             ]);
         }
     }
-    
+
 
     public function fetch_single($id){
         $categories= categories::all();
@@ -93,6 +94,5 @@ class ShopController extends Controller
                 'AllProducts' => $AllProducts,
             ]);
         }
-        
     }
 }
