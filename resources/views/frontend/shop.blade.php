@@ -88,7 +88,8 @@
                             <!-- Single Checkbox -->
                             <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                <label class="custom-control-label" for="customCheck1"><a href="{{ route('shop') }}">All
+                                <label class="custom-control-label" for="customCheck1"><a href=""
+                                        id="fetchAllProducts">All
                                         plants</a><span class="text-muted">{{ $AllProductCount }}</span></label>
                             </div>
                             @foreach($category_with_product as $item)
@@ -98,7 +99,8 @@
                                 <input type="checkbox" class="custom-control-input" id="cid{{ $item['category']->id }}"
                                     name="cid[]" value="{{ $item['category']->name }}">
                                 <label class="custom-control-label" for="cid{{ $item['category']->id }}">
-                                    <a href="{{ route('shop', $item['category']->id) }}">{{ $item['category']->name }}</a>
+                                    <a
+                                        href="{{ route('shop', $item['category']->id) }}">{{ $item['category']->name }}</a>
                                     <span class="text-muted">({{ $item['product_count'] }})</span>
                                 </label>
                             </div>
@@ -205,7 +207,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -269,7 +270,7 @@ $(document).ready(function() {
     $('.category_link').click(function(event) {
         event.preventDefault();
         var categoryId = $(this).data('id');
-        ///alert(categoryId);
+        //alert(categoryId);
 
         $.ajax({
             url: '{{ route("shop") }}', // Replace with your endpoint

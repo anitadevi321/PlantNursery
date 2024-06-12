@@ -14,9 +14,9 @@ class ShopController extends Controller
     
     public function __construct()
     {
-        $this->categories = Categories::all();
-        $this->AllProducts = Product::paginate(5);
-        //$this->AllProducts = Product::limit(9)->get();
+        $this->categories = Categories::where('status', 1)->get();
+       // $this->AllProducts = Product::paginate(5);
+       $this->AllProducts = Product::where('status', 1)->limit(9)->get();
         $this->AllProductCount = Product::count();
 
         $this->category_with_product = [];
@@ -30,25 +30,32 @@ class ShopController extends Controller
         }
     }
 
-    public function index($cid = null, $value= null)
+    
+    
+    public function index(Request $request)
     {
-        if ($cid !== null) {
-            $AllProducts = Product::where('category_id', $cid)->limit(9)->get();
+       // dd($request);
+        if ($request->ajax()) {
+            $data= [
+                // 'id' => 2,
+                // 'category_with_product' => $this->category_with_product,
+                //             'AllProductCount' => $this->AllProductCount,
+                            'AllProducts' => $this->AllProducts
+            ];
+            return response()->json($data);
+            // return response()->json([
+            //     'category_with_product' => $category_with_product,
+            //     'AllProductCount' => $AllProductCount,
+            //     'AllProducts' => $AllProducts,
+            // ]);
+        }else{
             return view('frontend.shop', [
-                'category_with_product' => $this->category_with_product,
-                'AllProductCount' => $this->AllProductCount,
-                'AllProducts' => $AllProducts,
-            ]);
-        } else {
-            // Return the view with the required data
-            return view('frontend.shop', [
-                'category_with_product' => $this->category_with_product,
-                'AllProductCount' => $this->AllProductCount,
-                'AllProducts' => $this->AllProducts,
-            ]);
+                            'category_with_product' => $this->category_with_product,
+                            'AllProductCount' => $this->AllProductCount,
+                            'AllProducts' => $this->AllProducts,
+                        ]);
         }
     }
-
 
     public function fetch_single($id){
         $categories= categories::all();
