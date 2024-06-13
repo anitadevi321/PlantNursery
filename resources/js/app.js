@@ -1,3 +1,4 @@
+import axios from 'axios';
 import './bootstrap';
 
 import Alpine from 'alpinejs';
@@ -11,55 +12,45 @@ function elementExistsById(id) {
     return document.getElementById(id) !== null;
 }
 
+function displaydata(products) {
+    var products = products;
+    var productContainer = document.getElementById('allproduct');
+    productContainer.innerHTML = '';
+    // Iterate through fetched products and update DOM
+    products.forEach(function (product) {
+        var imageUrl = `/upload_images/products/${product.image}`;
+        var productHtml = `
+                     <div class="col-12 col-sm-6 col-lg-4">
+                         <div class="single-product-area mb-50">
+                             <div class="product-img">
+                                 <a href="#">
+                                     <img src="${imageUrl}" alt="${product.name}">
+                                 </a>
+                             </div>
+                             <div class="product-info mt-15 text-center">
+                                 <a href="/shopDetail/${product.id}">
+                                     <p>${product.name}</p>
+                                 </a>
+                                 <h6>$${product.price}</h6>
+                             </div>
+                         </div>
+                     </div>
+                 `;
+        productContainer.innerHTML += productHtml; // Append product HTML to container
+    });
+}
 
-document.addEventListener('DOMContentLoaded', function() {
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    // fetch all products
     if (elementExistsById('fetchAllProducts')) {
-        document.getElementById('fetchAllProducts').addEventListener('click', function(event) {
+        document.getElementById('fetchAllProducts').addEventListener('click', function (event) {
             event.preventDefault();
             axios.get('/getproduct')
                 .then(function (response) {
-                    // Handle successful response
-                    console.log(response.data.AllProducts);  
-                    var products= response.data.AllProducts;
-                    var productall;
-                    var productContainer = document.getElementById('allproduct');
-                    productContainer.innerHTML='';
-                    for(let i=0; i<products.length; i++)
-                        {
-                          var productHtml= `
-                          <div class="col-12 col-sm-6 col-lg-4" >
-                            <div class="single-product-area mb-50">
-                                <!-- Product Image -->
-                                <div class="product-img">
-                                    <a href="shop-details.html"><img
-                                            src="{ asset('upload_images/products/'.${products[i].image})}" alt="${products[i].name}"></a>
-                                    <!-- Product Tag -->
-                                    <div class="product-tag">
-                                        <a href="#">Hot</a>
-                                    </div>
-                                    <div class="product-meta d-flex">
-                                        <a href="#" class="wishlist-btn"><i class="icon_heart_alt"></i></a>
-                                        <a href="cart.html" class="add-to-cart-btn">Add to cart</a>
-                                        <a href="#" class="compare-btn"><i class="arrow_left-right_alt"></i></a>
-                                    </div>
-                                </div>
-                                <!-- Product Info -->
-                                <div class="product-info mt-15 text-center">
-                                    <a href="{{ route('shop_details', $products->id) }}">
-                                        <p id="product_name">${products[i].name}</p>
-                                    </a>
-                                    <h6 id="product_price">$${products[i].price}</h6>
-                                </div>
-                            </div>
-                        </div>
-                          `;
-                          productContainer.innerHTML += productHtml;
-                            //document.getElementById('product_name').innerHTML= products[i]['name'];
-                        }
-                    // });
-                    console.log(productall);
-                    //document.getElementById('product_name').innerHTML= productall;
-                    
+                    var products = response.data.AllProducts;
+                    displaydata(products);
                 })
                 .catch(function (error) {
                     // Handle error
@@ -70,3 +61,77 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Element with ID "fetchAllProducts" does not exist.');
     }
 });
+
+
+// fetch product with category
+window.FetchProductWithCategory = function (event, categoryId) {
+    event.preventDefault();
+    //console.log('Category ID:', categoryId);
+
+    axios.get(`/fetchProductWithCategory/${categoryId}`)
+        .then(function (response) {
+            var products = response.data.ProductsWithCategory;
+            displaydata(products);
+        })
+        .catch(function (error) {
+            console.log('Error fetching data:', error);
+        });
+};
+
+
+// fetch products with sorting
+window.fetchwithsorting = function (event, value) {
+    event.preventDefault();
+
+    // for Alphabetically ascending order
+    if (value === 'ascWithName') {
+        axios.get(`/shop_sorting/${value}`)
+            .then(function (response) {
+                console.log(response.data);
+                var products = response.data.ProductsWithSorting;
+                displaydata(products);
+            })
+            .catch(function (error) {
+                console.error('Error fetching data:', error);
+            });
+    }
+
+    // for Alphabetically descending order
+    if (value == 'descWithName') {
+        axios.get(`/shop_sorting/${value}`)
+            .then(function (response) {
+                //console.log(response.data);
+                var products = response.data.ProductsWithSorting;
+                displaydata(products);
+            })
+            .catch(function (error) {
+                console.error('Error fetching data:', error);
+            });
+    }
+
+    // for Numarically Ascending order
+    if (value == 'ascWithNumarically') {
+        axios.get(`/shop_sorting/${value}`)
+            .then(function (response) {
+                var products = response.data.ProductsWithSorting;
+                displaydata(products);
+            })
+            .catch(function (error) {
+                console.log('Error fetching data:', error);
+            });
+    }
+
+    // for Numarically descending order
+    if (value == 'descWithNumarically') {
+        axios.get(`/shop_sorting/${value}`)
+            .then(function (response) {
+                var products = response.data.ProductsWithSorting;
+                var productContainer = document.getElementById('allproduct');
+                productContainer.innerHTML = '';
+                displaydata(products);
+            })
+            .catch(function (error) {
+                console.log('Error fetching data:', error);
+            });
+    }
+};

@@ -50,41 +50,37 @@ class ShopController extends Controller
 
     public function fetchWithSorting($value)
     {
-        if($value == 'Alphabetic_Asc')
+        if($value == 'ascWithName')
         {
-            $AllProducts = Product::orderBy('name')->limit(9)->get();
-            return view('frontend.shop', [
-                'category_with_product' => $this->category_with_product,
-                'AllProductCount' => $this->AllProductCount,
-                'AllProducts' => $AllProducts,
-            ]);
+            $ProductsWithSorting = Product::orderBy('name')->limit(9)->get();
+            $data= [
+                'ProductsWithSorting' => $ProductsWithSorting
+            ];
+            return response()->json($data);
         }
-        else if($value == 'Alphabetic_desc')
+        else if($value == 'descWithName')
         {
-            $AllProducts = Product::orderBy('name', 'desc')->limit(9)->get();
-            return view('frontend.shop', [
-                'category_with_product' => $this->category_with_product,
-                'AllProductCount' => $this->AllProductCount,
-                'AllProducts' => $AllProducts,
-            ]);
+            $ProductsWithSorting = Product::orderBy('name', 'desc')->limit(9)->get();
+            $data= [
+                'ProductsWithSorting' => $ProductsWithSorting
+            ];
+            return response()->json($data);
         }
-        else if($value == 'Numarically_Asc')
+        else if($value == 'ascWithNumarically')
         {
-            $AllProducts = Product::orderBy('price')->limit(9)->get();
-            return view('frontend.shop', [
-                'category_with_product' => $this->category_with_product,
-                'AllProductCount' => $this->AllProductCount,
-                'AllProducts' => $AllProducts,
-            ]);
+            $ProductsWithSorting = Product::orderBy('price')->limit(9)->get();
+            $data= [
+                'ProductsWithSorting' => $ProductsWithSorting
+            ];
+            return response()->json($data);
         }
-        else if($value == 'Numarically_desc')
+        else if($value == 'descWithNumarically')
         {
-            $AllProducts = Product::orderBy('price', 'desc')->limit(9)->get();
-            return view('frontend.shop', [
-                'category_with_product' => $this->category_with_product,
-                'AllProductCount' => $this->AllProductCount,
-                'AllProducts' => $AllProducts,
-            ]);
+            $ProductsWithSorting = Product::orderBy('price', 'desc')->limit(9)->get();
+            $data= [
+                'ProductsWithSorting' => $ProductsWithSorting
+            ];
+            return response()->json($data);
         }
     }
 
@@ -95,6 +91,14 @@ class ShopController extends Controller
             'category_with_product' => $this->category_with_product,
             'AllProductCount' => $this->AllProductCount,
             'AllProducts' => $this->AllProducts
+        ];
+        return response()->json($data);
+    }
+
+    public function fetchproduct_with_category($categoryId){
+        $ProductsWithCategory= Product::where('category_id', $categoryId)->get();
+        $data= [
+            'ProductsWithCategory' => $ProductsWithCategory
         ];
         return response()->json($data);
     }
