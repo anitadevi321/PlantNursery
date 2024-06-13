@@ -13,3 +13,4 @@
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="../style.css">
+    @vite('resources/js/app.js')

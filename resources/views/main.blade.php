@@ -22,8 +22,6 @@
 
     @yield('content')
 
-
-
    <!-- ##### Contact Area End ##### -->
 
     <!-- ##### Footer Area Start ##### -->

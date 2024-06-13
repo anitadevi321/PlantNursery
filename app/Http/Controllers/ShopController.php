@@ -34,27 +34,12 @@ class ShopController extends Controller
     
     public function index(Request $request)
     {
-       // dd($request);
-        if ($request->ajax()) {
-            $data= [
-                // 'id' => 2,
-                // 'category_with_product' => $this->category_with_product,
-                //             'AllProductCount' => $this->AllProductCount,
-                            'AllProducts' => $this->AllProducts
-            ];
-            return response()->json($data);
-            // return response()->json([
-            //     'category_with_product' => $category_with_product,
-            //     'AllProductCount' => $AllProductCount,
-            //     'AllProducts' => $AllProducts,
-            // ]);
-        }else{
+
             return view('frontend.shop', [
                             'category_with_product' => $this->category_with_product,
                             'AllProductCount' => $this->AllProductCount,
                             'AllProducts' => $this->AllProducts,
                         ]);
-        }
     }
 
     public function fetch_single($id){
@@ -101,5 +86,16 @@ class ShopController extends Controller
                 'AllProducts' => $AllProducts,
             ]);
         }
+    }
+
+
+    public function getproduct (){
+        //echo "hello";
+        $data= [
+            'category_with_product' => $this->category_with_product,
+            'AllProductCount' => $this->AllProductCount,
+            'AllProducts' => $this->AllProducts
+        ];
+        return response()->json($data);
     }
 }

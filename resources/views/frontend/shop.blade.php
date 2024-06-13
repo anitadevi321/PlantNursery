@@ -57,7 +57,7 @@
                 </div>
             </div>
         </div>
-
+        <div id="data"></div>
         <div class="row">
             <!-- Sidebar Area -->
             <div class="col-12 col-md-4 col-lg-3">
@@ -86,6 +86,7 @@
                         <h4 class="widget-title">Categories</h4>
                         <div class="widget-desc">
                             <!-- Single Checkbox -->
+                             <div id="data"></div>
                             <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck1">
                                 <label class="custom-control-label" for="customCheck1"><a href=""
@@ -100,7 +101,7 @@
                                     name="cid[]" value="{{ $item['category']->name }}">
                                 <label class="custom-control-label" for="cid{{ $item['category']->id }}">
                                     <a
-                                        href="{{ route('shop', $item['category']->id) }}">{{ $item['category']->name }}</a>
+                                        href="">{{ $item['category']->name }}</a>
                                     <span class="text-muted">({{ $item['product_count'] }})</span>
                                 </label>
                             </div>
@@ -213,14 +214,14 @@
             </div>
 
             <!-- All Products Area -->
-            <div class="col-12 col-md-8 col-lg-9">
+            <div class="col-12 col-md-8 col-lg-9" id="allproduct">
                 <div class="shop-products-area">
                     <div class="row">
 
                         <!-- Single Product Area -->
 
                         @foreach($AllProducts as $products)
-                        <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="col-12 col-sm-6 col-lg-4" >
                             <div class="single-product-area mb-50">
                                 <!-- Product Image -->
                                 <div class="product-img">
@@ -239,9 +240,9 @@
                                 <!-- Product Info -->
                                 <div class="product-info mt-15 text-center">
                                     <a href="{{ route('shop_details', $products->id) }}">
-                                        <p>{{ $products->name }}</p>
+                                        <p id="product_name">{{ $products->name }}</p>
                                     </a>
-                                    <h6>${{ $products->price}}</h6>
+                                    <h6 id="product_price">${{ $products->price}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -262,33 +263,4 @@
             </div>
         </div>
 </section>
-<!-- ##### Shop Area End ##### -->
-<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script>
-$(document).ready(function() {
-    $('.category_link').click(function(event) {
-        event.preventDefault();
-        var categoryId = $(this).data('id');
-        //alert(categoryId);
-
-        $.ajax({
-            url: '{{ route("shop") }}', // Replace with your endpoint
-            type: 'GET', // or 'POST' if needed
-            data: {
-                id: categoryId
-            },
-            success: function(response) {
-                // Handle the response from the server
-                console.log('Success:', response);
-                // Optionally redirect or update the page content
-            },
-            error: function(error) {
-                // Handle any errors
-                console.log('Error:', error);
-            }
-        });
-    });
-});
-</script> -->
 @endsection('content')
