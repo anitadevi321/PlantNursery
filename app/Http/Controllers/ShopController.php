@@ -29,9 +29,8 @@ class ShopController extends Controller
             ];
         }
     }
-
     
-    
+    // fetch all products
     public function index(Request $request)
     {
             return view('frontend.shop', [
@@ -41,13 +40,7 @@ class ShopController extends Controller
                         ]);
     }
 
-    public function fetch_single($id){
-        $categories= categories::all();
-        $products= product::where('category_id', $id)->get();
-        return view('frontend.shop', compact('products', 'categories'));
-    }
-
-
+    // fetch products with filter
     public function getproduct ($value= null){
         if(isset($value))
         {
