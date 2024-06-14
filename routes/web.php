@@ -24,11 +24,10 @@ use App\Http\Controllers\Auth\StripeController;
 /// web routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
-Route::get('/shop/{id?}', [ShopController::class, 'index'])->name('shop');
+Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/getproduct', [ShopController::class, 'getproduct']);
 Route::get('/fetchAllProducts', [ShopController::class, 'index'])->name('fetchAllProducts');
-Route::get('/fetchProductWithCategory/{id}', [ShopController::class, 'fetchproduct_with_category']);
-Route::get('/shop_sorting/{value}', [ShopController::class, 'fetchWithSorting'])->name('shop_sorting');
+Route::get('/fetchProductWithFilter/{value}', [ShopController::class, 'getproduct']);
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 // Route::post('/add_to_cart', [CartController::class, 'store'])->name('addcart');
 Route::get('/contact', [ContactUsController::class, 'index'])->name('contact');

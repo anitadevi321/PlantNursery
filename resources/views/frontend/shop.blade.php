@@ -101,7 +101,7 @@
                                     name="cid[]" value="{{ $item['category']->name }}">
                                 <label class="custom-control-label" for="cid{{ $item['category']->id }}">
                                     <a
-                                        href="" onclick="FetchProductWithCategory(event, {{ $item['category']->id}})">{{ $item['category']->name }}</a>
+                                        href="" class="FetchProductWithFilter" value="{{ $item['category']->id}}">{{ $item['category']->name }}</a>
                                     <span class="text-muted">({{ $item['product_count'] }})</span>
                                 </label>
                             </div>
@@ -123,28 +123,28 @@
                             <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck8">
                                 <label class="custom-control-label" for="customCheck8"><a
-                                        href="" onclick="fetchwithsorting(event,'ascWithName')">Alphabetically, A-Z
+                                        href="" class="FetchProductWithFilter" value="ascWithName" >Alphabetically, A-Z
                                     </a></label>
                             </div>
                             <!-- Single Checkbox -->
                             <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck9">
                                 <label class="custom-control-label" for="customCheck9"><a
-                                        href="" onclick="fetchwithsorting(event,'descWithName')">Alphabetically,
+                                        href="" class="FetchProductWithFilter" value="descWithName">Alphabetically,
                                         Z-A</a></label>
                             </div>
                             <!-- Single Checkbox -->
                             <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck10">
                                 <label class="custom-control-label" for="customCheck10"><a
-                                        href="" onclick="fetchwithsorting(event,'ascWithNumarically')">Price: low to
+                                        href="" class="FetchProductWithFilter" value="ascWithNumarically">Price: low to
                                         high</a></label>
                             </div>
                             <!-- Single Checkbox -->
                             <div class="custom-control custom-checkbox d-flex align-items-center">
                                 <input type="checkbox" class="custom-control-input" id="customCheck11">
                                 <label class="custom-control-label" for="customCheck11"><a
-                                        href="" onclick="fetchwithsorting(event,'descWithNumarically')">Price: high to
+                                        href="" class="FetchProductWithFilter" value="descWithNumarically">Price: high to
                                         low</a></label>
                             </div>
                         </div>

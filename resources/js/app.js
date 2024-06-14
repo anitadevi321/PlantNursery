@@ -12,6 +12,10 @@ function elementExistsById(id) {
     return document.getElementById(id) !== null;
 }
 
+function elementExistsByClass(className) {
+    return document.querySelectorAll(`.${className}`).length > 0;
+}
+
 function displaydata(products) {
     var products = products;
     var productContainer = document.getElementById('allproduct');
@@ -60,78 +64,26 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         console.log('Element with ID "fetchAllProducts" does not exist.');
     }
+
+    if (elementExistsByClass('FetchProductWithFilter')) {
+        var elements = document.getElementsByClassName('FetchProductWithFilter');
+        Array.from(elements).forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                var value = element.getAttribute('value');
+            
+                    axios.get(`/fetchProductWithFilter/${value}`)
+                        .then(function (response) {
+                            var products = response.data.products;
+                            displaydata(products);
+                        })
+                        .catch(function (error) {
+                            console.log('Error fetching data:', error);
+                        });
+            });
+        });
+    }
+
 });
 
 
-// fetch product with category
-window.FetchProductWithCategory = function (event, categoryId) {
-    event.preventDefault();
-    //console.log('Category ID:', categoryId);
-
-    axios.get(`/fetchProductWithCategory/${categoryId}`)
-        .then(function (response) {
-            var products = response.data.ProductsWithCategory;
-            displaydata(products);
-        })
-        .catch(function (error) {
-            console.log('Error fetching data:', error);
-        });
-};
-
-
-// fetch products with sorting
-window.fetchwithsorting = function (event, value) {
-    event.preventDefault();
-
-    // for Alphabetically ascending order
-    if (value === 'ascWithName') {
-        axios.get(`/shop_sorting/${value}`)
-            .then(function (response) {
-                console.log(response.data);
-                var products = response.data.ProductsWithSorting;
-                displaydata(products);
-            })
-            .catch(function (error) {
-                console.error('Error fetching data:', error);
-            });
-    }
-
-    // for Alphabetically descending order
-    if (value == 'descWithName') {
-        axios.get(`/shop_sorting/${value}`)
-            .then(function (response) {
-                //console.log(response.data);
-                var products = response.data.ProductsWithSorting;
-                displaydata(products);
-            })
-            .catch(function (error) {
-                console.error('Error fetching data:', error);
-            });
-    }
-
-    // for Numarically Ascending order
-    if (value == 'ascWithNumarically') {
-        axios.get(`/shop_sorting/${value}`)
-            .then(function (response) {
-                var products = response.data.ProductsWithSorting;
-                displaydata(products);
-            })
-            .catch(function (error) {
-                console.log('Error fetching data:', error);
-            });
-    }
-
-    // for Numarically descending order
-    if (value == 'descWithNumarically') {
-        axios.get(`/shop_sorting/${value}`)
-            .then(function (response) {
-                var products = response.data.ProductsWithSorting;
-                var productContainer = document.getElementById('allproduct');
-                productContainer.innerHTML = '';
-                displaydata(products);
-            })
-            .catch(function (error) {
-                console.log('Error fetching data:', error);
-            });
-    }
-};

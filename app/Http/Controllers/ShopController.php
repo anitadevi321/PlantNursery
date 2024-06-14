@@ -34,7 +34,6 @@ class ShopController extends Controller
     
     public function index(Request $request)
     {
-
             return view('frontend.shop', [
                             'category_with_product' => $this->category_with_product,
                             'AllProductCount' => $this->AllProductCount,
@@ -48,58 +47,58 @@ class ShopController extends Controller
         return view('frontend.shop', compact('products', 'categories'));
     }
 
-    public function fetchWithSorting($value)
-    {
-        if($value == 'ascWithName')
-        {
-            $ProductsWithSorting = Product::orderBy('name')->limit(9)->get();
-            $data= [
-                'ProductsWithSorting' => $ProductsWithSorting
-            ];
-            return response()->json($data);
-        }
-        else if($value == 'descWithName')
-        {
-            $ProductsWithSorting = Product::orderBy('name', 'desc')->limit(9)->get();
-            $data= [
-                'ProductsWithSorting' => $ProductsWithSorting
-            ];
-            return response()->json($data);
-        }
-        else if($value == 'ascWithNumarically')
-        {
-            $ProductsWithSorting = Product::orderBy('price')->limit(9)->get();
-            $data= [
-                'ProductsWithSorting' => $ProductsWithSorting
-            ];
-            return response()->json($data);
-        }
-        else if($value == 'descWithNumarically')
-        {
-            $ProductsWithSorting = Product::orderBy('price', 'desc')->limit(9)->get();
-            $data= [
-                'ProductsWithSorting' => $ProductsWithSorting
-            ];
-            return response()->json($data);
-        }
-    }
 
-
-    public function getproduct (){
-        //echo "hello";
-        $data= [
-            'category_with_product' => $this->category_with_product,
-            'AllProductCount' => $this->AllProductCount,
-            'AllProducts' => $this->AllProducts
-        ];
-        return response()->json($data);
-    }
-
-    public function fetchproduct_with_category($categoryId){
-        $ProductsWithCategory= Product::where('category_id', $categoryId)->get();
-        $data= [
-            'ProductsWithCategory' => $ProductsWithCategory
-        ];
-        return response()->json($data);
+    public function getproduct ($value= null){
+        if(isset($value))
+        {
+            if(is_numeric($value))
+            {
+                $categoryId= $value;
+                $ProductsWithCategory= Product::where('category_id', $categoryId)->get();
+                $data= [
+                    'products' => $ProductsWithCategory
+                ];
+                return response()->json($data);
+            }
+            else if(is_string($value)){
+                if($value == 'ascWithName')
+                {
+                    $ProductsWithSorting = Product::orderBy('name')->limit(9)->get();
+                    $data= [
+                        'products' => $ProductsWithSorting
+                    ];
+                    return response()->json($data);
+                }
+                else if($value == 'descWithName'){
+                    $ProductsWithSorting = Product::orderBy('name', 'desc')->limit(9)->get();
+                    $data= [
+                        'products' => $ProductsWithSorting
+                    ];
+                    return response()->json($data);
+                }
+                else if($value == 'ascWithNumarically'){
+                    $ProductsWithSorting = Product::orderBy('price')->limit(9)->get();
+                    $data= [
+                        'products' => $ProductsWithSorting
+                    ];
+                    return response()->json($data);
+                }
+                else if($value == 'descWithNumarically'){
+                    $ProductsWithSorting = Product::orderBy('price', 'desc')->limit(9)->get();
+                    $data= [
+                        'products' => $ProductsWithSorting
+                    ];
+                    return response()->json($data);
+                }
+            }
+        }
+        else{
+            $data= [
+                'category_with_product' => $this->category_with_product,
+                'AllProductCount' => $this->AllProductCount,
+                'AllProducts' => $this->AllProducts
+            ];
+            return response()->json($data);
+        }
     }
 }
