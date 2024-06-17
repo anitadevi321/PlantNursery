@@ -16,34 +16,63 @@ function elementExistsByClass(className) {
     return document.querySelectorAll(`.${className}`).length > 0;
 }
 
-function displaydata(products) {
+function displaydata(products, paginationHtml) {
+    //document.write(products);
     var products = products;
     var productContainer = document.getElementById('allproduct');
     productContainer.innerHTML = '';
     // Iterate through fetched products and update DOM
-    products.forEach(function (product) {
+    for (var i = 0; i < products.length; i++) {
+        var product = products[i];
         var imageUrl = `/upload_images/products/${product.image}`;
         var productHtml = `
-                     <div class="col-12 col-sm-6 col-lg-4">
-                         <div class="single-product-area mb-50">
-                             <div class="product-img">
-                                 <a href="#">
-                                     <img src="${imageUrl}" alt="${product.name}">
-                                 </a>
-                             </div>
-                             <div class="product-info mt-15 text-center">
-                                 <a href="/shopDetail/${product.id}">
-                                     <p>${product.name}</p>
-                                 </a>
-                                 <h6>$${product.price}</h6>
-                             </div>
-                         </div>
-                     </div>
-                 `;
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="single-product-area mb-50">
+                    <div class="product-img">
+                        <a href="#">
+                            <img src="${imageUrl}" alt="${product.name}">
+                        </a>
+                    </div>
+                    <div class="product-info mt-15 text-center">
+                        <a href="/shopDetail/${product.id}">
+                            <p>${product.name}</p>
+                        </a>
+                        <h6>$${product.price}</h6>
+                    </div>
+                </div>
+            </div>
+        `;
         productContainer.innerHTML += productHtml; // Append product HTML to container
+    }
+
+    var paginationContainer = document.getElementById('paginationLinks');
+    paginationContainer.innerHTML = paginationHtml;
+
+    var paginationLinks = paginationContainer.querySelectorAll('a.page-link');
+    
+    paginationLinks.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            fetchProducts(link.href);
+        });
     });
 }
-
+function fetchProducts(url) {
+        axios.get(url)
+            .then(function (response) {
+                //console.log('Response data:', response.data.products.data);
+                console.log('Response data:', response.data.products.data);
+               // var products = response.data.AllProducts.data;
+                var products = response.data.products.data;
+                var paginationHtml = response.data.paginationLinks;
+                console.log('Products:', products);
+                console.log('Pagination HTML:', paginationHtml);
+                displaydata(products, paginationHtml);
+            })
+            .catch(function (error) {
+                console.error('Error fetching data:', error);
+            });
+    }
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -54,7 +83,8 @@ document.addEventListener('DOMContentLoaded', function () {
             axios.get('/getproduct')
                 .then(function (response) {
                     var products = response.data.AllProducts;
-                    displaydata(products);
+                    var paginationHtml = response.data.paginationLinks;
+                    displaydata(products,paginationHtml);
                 })
                 .catch(function (error) {
                     // Handle error
@@ -71,15 +101,17 @@ document.addEventListener('DOMContentLoaded', function () {
             element.addEventListener('click', function (event) {
                 event.preventDefault();
                 var value = element.getAttribute('value');
-            
-                    axios.get(`/fetchProductWithFilter/${value}`)
-                        .then(function (response) {
-                            var products = response.data.products;
-                            displaydata(products);
-                        })
-                        .catch(function (error) {
-                            console.log('Error fetching data:', error);
-                        });
+
+                axios.get(`/fetchProductWithFilter/${value}`)
+                    .then(function (response) {
+                        var products = response.data.products;
+                        var paginationHtml = response.data.paginationLinks;
+                        //console.log(paginationHtml);
+                        displaydata(products,paginationHtml);
+                    })
+                    .catch(function (error) {
+                        console.log('Error fetching data:', error);
+                    });
             });
         });
     }

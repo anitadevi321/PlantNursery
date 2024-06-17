@@ -86,7 +86,7 @@
                         <h4 class="widget-title">Categories</h4>
                         <div class="widget-desc">
                             <!-- Single Checkbox -->
-                             <div id="data"></div>
+                            <div id="data"></div>
                             <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck1">
                                 <label class="custom-control-label" for="customCheck1"><a href=""
@@ -100,8 +100,8 @@
                                 <input type="checkbox" class="custom-control-input" id="cid{{ $item['category']->id }}"
                                     name="cid[]" value="{{ $item['category']->name }}">
                                 <label class="custom-control-label" for="cid{{ $item['category']->id }}">
-                                    <a
-                                        href="" class="FetchProductWithFilter" value="{{ $item['category']->id}}">{{ $item['category']->name }}</a>
+                                    <a href="" class="FetchProductWithFilter"
+                                        value="{{ $item['category']->id}}">{{ $item['category']->name }}</a>
                                     <span class="text-muted">({{ $item['product_count'] }})</span>
                                 </label>
                             </div>
@@ -122,29 +122,29 @@
                             <!-- Single Checkbox -->
                             <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck8">
-                                <label class="custom-control-label" for="customCheck8"><a
-                                        href="" class="FetchProductWithFilter" value="ascWithName" >Alphabetically, A-Z
+                                <label class="custom-control-label" for="customCheck8"><a href=""
+                                        class="FetchProductWithFilter" value="ascWithName">Alphabetically, A-Z
                                     </a></label>
                             </div>
                             <!-- Single Checkbox -->
                             <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck9">
-                                <label class="custom-control-label" for="customCheck9"><a
-                                        href="" class="FetchProductWithFilter" value="descWithName">Alphabetically,
+                                <label class="custom-control-label" for="customCheck9"><a href=""
+                                        class="FetchProductWithFilter" value="descWithName">Alphabetically,
                                         Z-A</a></label>
                             </div>
                             <!-- Single Checkbox -->
                             <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck10">
-                                <label class="custom-control-label" for="customCheck10"><a
-                                        href="" class="FetchProductWithFilter" value="ascWithNumarically">Price: low to
+                                <label class="custom-control-label" for="customCheck10"><a href=""
+                                        class="FetchProductWithFilter" value="ascWithNumarically">Price: low to
                                         high</a></label>
                             </div>
                             <!-- Single Checkbox -->
                             <div class="custom-control custom-checkbox d-flex align-items-center">
                                 <input type="checkbox" class="custom-control-input" id="customCheck11">
-                                <label class="custom-control-label" for="customCheck11"><a
-                                        href="" class="FetchProductWithFilter" value="descWithNumarically">Price: high to
+                                <label class="custom-control-label" for="customCheck11"><a href=""
+                                        class="FetchProductWithFilter" value="descWithNumarically">Price: high to
                                         low</a></label>
                             </div>
                         </div>
@@ -214,14 +214,14 @@
             </div>
 
             <!-- All Products Area -->
-            <div class="col-12 col-md-8 col-lg-9" >
+            <div class="col-12 col-md-8 col-lg-9">
                 <div class="shop-products-area">
                     <div class="row" id="allproduct">
 
                         <!-- Single Product Area -->
 
                         @foreach($AllProducts as $products)
-                        <div class="col-12 col-sm-6 col-lg-4" >
+                        <div class="col-12 col-sm-6 col-lg-4">
                             <div class="single-product-area mb-50">
                                 <!-- Product Image -->
                                 <div class="product-img">
@@ -247,17 +247,13 @@
                             </div>
                         </div>
                         @endforeach
+                    </div>
 
-                        <!-- Pagination -->
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#"><i
-                                            class="fa fa-angle-right"></i></a>
-                                </li>
-                            </ul>
-                        </nav>
+                    <!-- Pagination -->
+                    <div class="d-flex justify-content-center custom-pagination" id="paginationLinks">
+                        @if(isset($AllProducts))
+                        {!! $AllProducts->links() !!}
+                        @endif
                     </div>
                 </div>
             </div>

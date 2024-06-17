@@ -2639,6 +2639,19 @@ img {
   .portfolio-details-meta:last-child {
     margin-bottom: 0; }
 
+    .custom-pagination .page-link {
+      color: #ff6347; /* Tomato color for links */
+  }
+
+  .custom-pagination .page-item.active .page-link {
+      background-color: rgb(113, 168, 30); /* Tomato background for active page */
+      border-color:  rgb(113, 168, 30);
+      color: white;
+  }
+
+  .custom-pagination .page-item.disabled .page-link {
+      color: #ccc; /* Light grey for disabled links */
+  }
 /* ======= The End ======= */
 
 /*# sourceMappingURL=style.css.map */
