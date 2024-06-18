@@ -88,10 +88,11 @@ class ShopController extends Controller
             }
         }
         else{
-            $AllProducts = Product::where('status', 1)->paginate(2);
-            return response()->json([
+            $AllProducts = Product::where('status', 1)->paginate(6);
+            $data= [
                 'AllProducts' => $AllProducts,
-            ]);
+            ];
+            return response()->json($data);
         }
     }
 }

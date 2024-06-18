@@ -17,8 +17,7 @@ function elementExistsByClass(className) {
 }
 
 function displaydata(products, paginationHtml = null) {
-   //console.log(products.data);
-    var products = products.data;
+    var products = products;
     var productContainer = document.getElementById('allproduct');
     productContainer.innerHTML = '';
     // Iterate through fetched products and update DOM
@@ -78,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
             axios.get('/getproduct')
                 .then(function (response) {
-                    var products = response.data;
+                    var products = response.data.AllProducts.data;
                     displaydata(products);
                 })
                 .catch(function (error) {
@@ -100,8 +99,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 axios.get(`/fetchProductWithFilter/${value}`)
                     .then(function (response) {
-                        var products = response.data.products;
+                        var products = response.data.products.data;
                         var paginationHtml = response.data.paginationLinks;
+                       // console.log(products);
                         displaydata(products, paginationHtml);
                     })
                     .catch(function (error) {

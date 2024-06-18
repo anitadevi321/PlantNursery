@@ -71,32 +71,6 @@
                                 <ul>
                                     <li><a href="{{ route('home') }}">Home</a></li>
                                     <li><a href="{{ route('about') }}">About</a></li>
-                                    <li><a href="#">Pages</a>
-                                        <ul class="dropdown">
-                                            <li><a href="{{ route('home') }}">Home</a></li>
-                                            <li><a href="{{ route('about') }}">About</a></li>
-                                            <li><a href="{{ route('shop') }}">Shop</a>
-                                                <ul class="dropdown">
-                                                    <li><a href="{{ route('shop') }}">Shop</a></li>
-                                                    <li><a href="{{ route('cart') }}">Shopping Cart</a></li>
-                                                    <li><a href="{{ route('checkout') }}">Checkout</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="portfolio.html">Portfolio</a>
-                                                <ul class="dropdown">
-                                                    <li><a href="{{ route('portfolio') }}">Portfolio</a></li>
-                                                    <li><a href="single-portfolio.html">Portfolio Details</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="blog.html">Blog</a>
-                                                <ul class="dropdown">
-                                                    <li><a href="blog.html">Blog</a></li>
-                                                    <li><a href="single-post.html">Blog Details</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="{{ route('contact') }}">Contact</a></li>
-                                        </ul>
-                                    </li>
                                     <li><a href="{{ route('shop') }}">Shop</a></li>
                                     <li><a href="{{ route('portfolio') }}">Portfolio</a></li>
                                     <li><a href="{{ route('contact') }}">Contact</a></li>

@@ -29,31 +29,16 @@
 <!-- ##### Shop Area Start ##### -->
 <section class="shop-page section-padding-0-100">
     <div class="container">
-        <div class="row">
+         <div class="row">
             <!-- Shop Sorting Data -->
             <div class="col-12">
-                <div class="shop-sorting-data d-flex flex-wrap align-items-center justify-content-between">
+                <div class="shop-sorting-data d-flex flex-wrap align-items-center justify-content-center">
                     <!-- Shop Page Count -->
                     <div class="shop-page-count">
-                        <p>Showing 1–9 of 72 results</p>
+                      <h2>All Type Plants</h2>
                     </div>
                     <!-- Search by Terms -->
-                    <div class="search_by_terms">
-                        <form action="#" method="post" class="form-inline">
-                            <select class="custom-select widget-title">
-                                <option selected>Short by Popularity</option>
-                                <option value="1">Short by Newest</option>
-                                <option value="2">Short by Sales</option>
-                                <option value="3">Short by Ratings</option>
-                            </select>
-                            <select class="custom-select widget-title">
-                                <option selected>Show: 9</option>
-                                <option value="1">12</option>
-                                <option value="2">18</option>
-                                <option value="3">24</option>
-                            </select>
-                        </form>
-                    </div>
+                  
                 </div>
             </div>
         </div>
@@ -63,23 +48,7 @@
             <div class="col-12 col-md-4 col-lg-3">
                 <div class="shop-sidebar-area">
 
-                    <!-- Shop Widget -->
-                    <div class="shop-widget price mb-50">
-                        <h4 class="widget-title">Prices</h4>
-                        <div class="widget-desc">
-                            <div class="slider-range">
-                                <div data-min="8" data-max="30" data-unit="$"
-                                    class="slider-range-price ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"
-                                    data-value-min="8" data-value-max="30" data-label-result="Price:">
-                                    <div class="ui-slider-range ui-widget-header ui-corner-all"></div>
-                                    <span class="ui-slider-handle ui-state-default ui-corner-all first-handle"
-                                        tabindex="0"></span>
-                                    <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
-                                </div>
-                                <div class="range-price">Price: $8 - $30</div>
-                            </div>
-                        </div>
-                    </div>
+                 
 
                     <!-- Shop Widget -->
                     <div class="shop-widget catagory mb-50">
@@ -87,22 +56,24 @@
                         <div class="widget-desc">
                             <!-- Single Checkbox -->
                             <div id="data"></div>
-                            <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
-                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                <label class="custom-control-label" for="customCheck1"><a href=""
-                                        id="fetchAllProducts">All
-                                        plants</a><span class="text-muted">{{ $AllProductCount }}</span></label>
+                            <div class="custom-control custom-checkbox d-flex align-items-center mb-2"
+                                style="padding-left:0px">
+                                <!-- <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                <label class="custom-control-label" for="customCheck1"></label> -->
+                                <a href="" id="fetchAllProducts">All
+                                    plants</a><span class="text-muted">{{ $AllProductCount }}</span>
                             </div>
                             @foreach($category_with_product as $item)
                             @if($item['product_count'] > 0)
-                            <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
+                            <div class="custom-control custom-checkbox d-flex align-items-center mb-2"
+                                style="padding-left:0px">
                                 <!-- Ensure each checkbox has a unique ID by appending the category ID -->
-                                <input type="checkbox" class="custom-control-input" id="cid{{ $item['category']->id }}"
+                                <!-- <input type="checkbox" class="custom-control-input" id="cid{{ $item['category']->id }}"
                                     name="cid[]" value="{{ $item['category']->name }}">
-                                <label class="custom-control-label" for="cid{{ $item['category']->id }}">
-                                    <a href="" class="FetchProductWithFilter"
-                                        value="{{ $item['category']->id}}">{{ $item['category']->name }}</a>
-                                    <span class="text-muted">({{ $item['product_count'] }})</span>
+                                <label class="custom-control-label" for="cid{{ $item['category']->id }}"> -->
+                                <a href="" class="FetchProductWithFilter"
+                                    value="{{ $item['category']->id}}">{{ $item['category']->name }}</a>
+                                <span class="text-muted">({{ $item['product_count'] }})</span>
                                 </label>
                             </div>
                             @endif
@@ -115,37 +86,28 @@
                         <h4 class="widget-title">Sort by</h4>
                         <div class="widget-desc">
                             <!-- Single Checkbox -->
-                            <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
+                            <!-- <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck7">
                                 <label class="custom-control-label" for="customCheck7">New arrivals</label>
+                            </div> -->
+                            <!-- Single Checkbox -->
+                            <div class="custom-control custom-checkbox d-flex align-items-center mb-2" style="padding-left:0px">
+                                <a href="" class="FetchProductWithFilter" value="ascWithName">Alphabetically, A-Z</a>
                             </div>
                             <!-- Single Checkbox -->
-                            <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
-                                <input type="checkbox" class="custom-control-input" id="customCheck8">
-                                <label class="custom-control-label" for="customCheck8"><a href=""
-                                        class="FetchProductWithFilter" value="ascWithName">Alphabetically, A-Z
-                                    </a></label>
+                            <div class="custom-control custom-checkbox d-flex align-items-center mb-2" style="padding-left:0px">
+                                <a href="" class="FetchProductWithFilter" value="descWithName">Alphabetically,
+                                    Z-A</a>
                             </div>
                             <!-- Single Checkbox -->
-                            <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
-                                <input type="checkbox" class="custom-control-input" id="customCheck9">
-                                <label class="custom-control-label" for="customCheck9"><a href=""
-                                        class="FetchProductWithFilter" value="descWithName">Alphabetically,
-                                        Z-A</a></label>
+                            <div class="custom-control custom-checkbox d-flex align-items-center mb-2" style="padding-left:0px">
+                                <a href="" class="FetchProductWithFilter" value="ascWithNumarically">Price: low to
+                                    high</a>
                             </div>
                             <!-- Single Checkbox -->
-                            <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
-                                <input type="checkbox" class="custom-control-input" id="customCheck10">
-                                <label class="custom-control-label" for="customCheck10"><a href=""
-                                        class="FetchProductWithFilter" value="ascWithNumarically">Price: low to
-                                        high</a></label>
-                            </div>
-                            <!-- Single Checkbox -->
-                            <div class="custom-control custom-checkbox d-flex align-items-center">
-                                <input type="checkbox" class="custom-control-input" id="customCheck11">
-                                <label class="custom-control-label" for="customCheck11"><a href=""
-                                        class="FetchProductWithFilter" value="descWithNumarically">Price: high to
-                                        low</a></label>
+                            <div class="custom-control custom-checkbox d-flex align-items-center" style="padding-left:0px">
+                                <a href="" class="FetchProductWithFilter" value="descWithNumarically">Price: high to
+                                    low</a>
                             </div>
                         </div>
                     </div>
@@ -250,7 +212,7 @@
                     </div>
 
                     <!-- Pagination -->
-                  
+
                     <div class="d-flex justify-content-center custom-pagination" id="paginationLinks">
                         {{ $AllProducts->links() }}
                     </div>
