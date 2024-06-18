@@ -250,10 +250,9 @@
                     </div>
 
                     <!-- Pagination -->
+                  
                     <div class="d-flex justify-content-center custom-pagination" id="paginationLinks">
-                        @if(isset($AllProducts))
-                        {!! $AllProducts->links() !!}
-                        @endif
+                        {{ $AllProducts->links() }}
                     </div>
                 </div>
             </div>

@@ -16,7 +16,6 @@ class ShopController extends Controller
     {
         $this->categories = Categories::where('status', 1)->get();
         $this->AllProducts = Product::where('status', 1)->limit(9)->get();
-      // $this->AllProducts = Product::where('status', 1)->paginate(2);
         $this->AllProductCount = Product::count();
 
         $this->category_with_product = [];
@@ -90,17 +89,11 @@ class ShopController extends Controller
         }
         else{
             $AllProducts = Product::where('status', 1)->paginate(2);
-            // $data= [
-            //     'category_with_product' => $this->category_with_product,
-            //     'AllProductCount' => $this->AllProductCount,
-            //     'AllProducts' => $AllProducts,
-            //     'paginationLinks' => $AllProducts->links()->toHtml()
-            // ];
             return response()->json([
-                'category_with_product' => $this->category_with_product,
-                'AllProductCount' => $this->AllProductCount,
+                //'category_with_product' => $this->category_with_product,
+                //'AllProductCount' => $this->AllProductCount,
                 'AllProducts' => $AllProducts,
-                'paginationLinks' => $AllProducts->links()->toHtml()
+                //'paginationLinks' => $AllProducts->links()->toHtml()
             ]);
         }
     }

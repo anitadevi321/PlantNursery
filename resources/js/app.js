@@ -16,7 +16,7 @@ function elementExistsByClass(className) {
     return document.querySelectorAll(`.${className}`).length > 0;
 }
 
-function displaydata(products, paginationHtml) {
+function displaydata(products, paginationHtml = null) {
     //document.write(products);
     var products = products;
     var productContainer = document.getElementById('allproduct');
@@ -44,35 +44,32 @@ function displaydata(products, paginationHtml) {
         `;
         productContainer.innerHTML += productHtml; // Append product HTML to container
     }
+    if (paginationHtml !== null) {
+        var paginationContainer = document.getElementById('paginationLinks');
+        paginationContainer.innerHTML = paginationHtml;
+        var paginationLinks = paginationContainer.querySelectorAll('a.page-link');
 
-    var paginationContainer = document.getElementById('paginationLinks');
-    paginationContainer.innerHTML = paginationHtml;
-
-    var paginationLinks = paginationContainer.querySelectorAll('a.page-link');
-    
-    paginationLinks.forEach(function (link) {
-        link.addEventListener('click', function (event) {
-            event.preventDefault();
-            fetchProducts(link.href);
+        paginationLinks.forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                fetchProducts(link.href);
+            });
         });
-    });
+    }
+
 }
 function fetchProducts(url) {
-        axios.get(url)
-            .then(function (response) {
-                //console.log('Response data:', response.data.products.data);
-                console.log('Response data:', response.data.products.data);
-               // var products = response.data.AllProducts.data;
-                var products = response.data.products.data;
-                var paginationHtml = response.data.paginationLinks;
-                console.log('Products:', products);
-                console.log('Pagination HTML:', paginationHtml);
-                displaydata(products, paginationHtml);
-            })
-            .catch(function (error) {
-                console.error('Error fetching data:', error);
-            });
-    }
+    axios.get(url)
+        .then(function (response) {
+           // console.log('Response data:', response.data.products.data);
+            var products = response.data.products.data;
+            var paginationHtml = response.data.paginationLinks;
+            displaydata(products, paginationHtml);
+        })
+        .catch(function (error) {
+            console.error('Error fetching data:', error);
+        });
+}
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -82,9 +79,9 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
             axios.get('/getproduct')
                 .then(function (response) {
-                    var products = response.data.AllProducts;
-                    var paginationHtml = response.data.paginationLinks;
-                    displaydata(products,paginationHtml);
+                    var products = response.data;
+                    console.log(products);
+                    displaydata(products);
                 })
                 .catch(function (error) {
                     // Handle error
@@ -95,6 +92,8 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Element with ID "fetchAllProducts" does not exist.');
     }
 
+
+    //fetch product with filter
     if (elementExistsByClass('FetchProductWithFilter')) {
         var elements = document.getElementsByClassName('FetchProductWithFilter');
         Array.from(elements).forEach(function (element) {
@@ -107,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         var products = response.data.products;
                         var paginationHtml = response.data.paginationLinks;
                         //console.log(paginationHtml);
-                        displaydata(products,paginationHtml);
+                        displaydata(products, paginationHtml);
                     })
                     .catch(function (error) {
                         console.log('Error fetching data:', error);
