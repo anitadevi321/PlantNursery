@@ -12,6 +12,7 @@ Use App\Http\Controllers\PortfolioController;
 Use App\Http\Controllers\ContactUsController;
 Use App\Http\Controllers\RegisteredUserController;
 Use App\Http\Controllers\DashboardController;
+Use App\Http\Controllers\singleportfolioController;
 use App\Http\Middleware\checkValid;
 use App\Http\Controllers\Auth\CategoryController;
 use App\Http\Controllers\Auth\ProductController;
@@ -36,7 +37,7 @@ Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 //Route::get('/shopDetail', [ShopdetailsController::class, 'index'])->name('shop-details');
 Route::get('/shopDetail/{id}', [ShopdetailsController::class, 'index'])->name('shop_details');
 //Route::get('/profile', [PortfolioController::class, 'index'])->name('profile');
-Route::get('/singleportfolio', [singleprotfolioController::class, 'index'])->name('portfolio');
+Route::get('/singleportfolio', [singleportfolioController::class, 'index'])->name('portfolio');
 
 Route::get('/admin-dashboard', function () {
     return view('admin.index');
