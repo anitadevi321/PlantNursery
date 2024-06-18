@@ -29,27 +29,11 @@
 <!-- ##### Shop Area Start ##### -->
 <section class="shop-page section-padding-0-100">
     <div class="container">
-         <div class="row">
-            <!-- Shop Sorting Data -->
-            <div class="col-12">
-                <div class="shop-sorting-data d-flex flex-wrap align-items-center justify-content-center">
-                    <!-- Shop Page Count -->
-                    <div class="shop-page-count">
-                      <h2>All Type Plants</h2>
-                    </div>
-                    <!-- Search by Terms -->
-                  
-                </div>
-            </div>
-        </div>
         <div id="data"></div>
         <div class="row">
             <!-- Sidebar Area -->
             <div class="col-12 col-md-4 col-lg-3">
                 <div class="shop-sidebar-area">
-
-                 
-
                     <!-- Shop Widget -->
                     <div class="shop-widget catagory mb-50">
                         <h4 class="widget-title">Categories</h4>
