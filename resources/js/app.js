@@ -17,8 +17,8 @@ function elementExistsByClass(className) {
 }
 
 function displaydata(products, paginationHtml = null) {
-    //document.write(products);
-    var products = products;
+   //console.log(products.data);
+    var products = products.data;
     var productContainer = document.getElementById('allproduct');
     productContainer.innerHTML = '';
     // Iterate through fetched products and update DOM
@@ -56,7 +56,6 @@ function displaydata(products, paginationHtml = null) {
             });
         });
     }
-
 }
 function fetchProducts(url) {
     axios.get(url)
@@ -80,7 +79,6 @@ document.addEventListener('DOMContentLoaded', function () {
             axios.get('/getproduct')
                 .then(function (response) {
                     var products = response.data;
-                    console.log(products);
                     displaydata(products);
                 })
                 .catch(function (error) {
@@ -91,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         console.log('Element with ID "fetchAllProducts" does not exist.');
     }
-
 
     //fetch product with filter
     if (elementExistsByClass('FetchProductWithFilter')) {
@@ -105,7 +102,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then(function (response) {
                         var products = response.data.products;
                         var paginationHtml = response.data.paginationLinks;
-                        //console.log(paginationHtml);
                         displaydata(products, paginationHtml);
                     })
                     .catch(function (error) {

@@ -90,10 +90,7 @@ class ShopController extends Controller
         else{
             $AllProducts = Product::where('status', 1)->paginate(2);
             return response()->json([
-                //'category_with_product' => $this->category_with_product,
-                //'AllProductCount' => $this->AllProductCount,
                 'AllProducts' => $AllProducts,
-                //'paginationLinks' => $AllProducts->links()->toHtml()
             ]);
         }
     }
