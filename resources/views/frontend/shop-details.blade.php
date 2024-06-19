@@ -40,7 +40,7 @@
                                         <img class="d-block w-100" src="{{ asset('upload_images/products/'.$product->image)}}" alt="1">
                                     </a>
                                     </div>
-                                    <div class="carousel-item">
+                                    <!-- <div class="carousel-item">
                                         <a class="product-img" href="{{ asset('upload_images/products/'.$product->image)}}" title="Product Image">
                                         <img class="d-block w-100" src="{{ asset('upload_images/products/'.$product->image)}}" alt="1">
                                     </a>
@@ -49,16 +49,16 @@
                                         <a class="product-img" href="{{ asset('upload_images/products/'.$product->image)}}" title="Product Image">
                                         <img class="d-block w-100" src="{{ asset('upload_images/products/'.$product->image)}}" alt="1">
                                     </a>
-                                    </div>
+                                    </div> -->
                                 </div>
-                                <ol class="carousel-indicators">
+                                <!-- <ol class="carousel-indicators">
                                     <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url(img/bg-img/49.jpg);">
                                     </li>
                                     <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url(img/bg-img/49.jpg);">
                                     </li>
                                     <li data-target="#product_details_slider" data-slide-to="2" style="background-image: url(img/bg-img/49.jpg);">
                                     </li>
-                                </ol>
+                                </ol> -->
                             </div>
                         </div>
                     </div>

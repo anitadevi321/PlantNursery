@@ -89,6 +89,17 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Element with ID "fetchAllProducts" does not exist.');
     }
 
+
+
+    if (elementExistsById('success-message')) {
+        setTimeout(function() {
+            var successMessage = document.getElementById('success-message');
+            if (successMessage) {
+                successMessage.style.display = 'none';
+            }
+        }, 5000); // 5000 milliseconds = 5 seconds
+    }
+
     //fetch product with filter
     if (elementExistsByClass('FetchProductWithFilter')) {
         var elements = document.getElementsByClassName('FetchProductWithFilter');
