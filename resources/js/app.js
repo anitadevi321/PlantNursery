@@ -59,7 +59,7 @@ function displaydata(products, paginationHtml = null) {
 function fetchProducts(url) {
     axios.get(url)
         .then(function (response) {
-           // console.log('Response data:', response.data.products.data);
+            // console.log('Response data:', response.data.products.data);
             var products = response.data.products.data;
             var paginationHtml = response.data.paginationLinks;
             displaydata(products, paginationHtml);
@@ -89,10 +89,9 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Element with ID "fetchAllProducts" does not exist.');
     }
 
-
-
+    // show session message for only 5 seconds
     if (elementExistsById('success-message')) {
-        setTimeout(function() {
+        setTimeout(function () {
             var successMessage = document.getElementById('success-message');
             if (successMessage) {
                 successMessage.style.display = 'none';
@@ -112,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then(function (response) {
                         var products = response.data.products.data;
                         var paginationHtml = response.data.paginationLinks;
-                       // console.log(products);
+                        // console.log(products);
                         displaydata(products, paginationHtml);
                     })
                     .catch(function (error) {
@@ -121,6 +120,35 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
+
+
+    
+    // if (elementExistsByClass('addToCart')) {
+    //     const addToCartButtons = document.getElementsByClassName('addToCart');
+
+    //     // Loop through each button and add an event listener
+    //     for (let i = 0; i < addToCartButtons.length; i++) {
+    //         addToCartButtons[i].addEventListener('click', function (event) {
+    //             event.preventDefault();
+
+    //             var productId = this.getAttribute('id');
+
+    //             axios({
+    //                 method: 'post',
+    //                 url: '/add_to_cart',
+    //                 data: { product_id: productId }
+    //             })
+    //             .then(function (response) {
+    //                 console.log(response.data); // Handle the response data
+    //                 // You can also show a success message to the user here
+    //             })
+    //             .catch(function (error) {
+    //                 console.error(error); // Handle the error
+    //                 // You can also show an error message to the user here
+    //             });
+    //         });
+    //     }
+    // }
 });
 
 

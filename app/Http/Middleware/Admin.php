@@ -5,8 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth;
-class checkValid
+
+class Admin
 {
     /**
      * Handle an incoming request.
@@ -15,9 +15,6 @@ class checkValid
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // $c= $request->user()->usertype;
-        // if($c)
-        // return $next($request);
-     }
-        
+        return $next($request);
+    }
 }

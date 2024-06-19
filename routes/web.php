@@ -30,7 +30,7 @@ Route::get('/getproduct', [ShopController::class, 'getproduct']);
 Route::get('/fetchAllProducts', [ShopController::class, 'index'])->name('fetchAllProducts');
 Route::get('/fetchProductWithFilter/{value}', [ShopController::class, 'getproduct']);
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
-// Route::post('/add_to_cart', [CartController::class, 'store'])->name('addcart');
+Route::post('/add_to_cart', [CartController::class, 'store'])->name('addcart');
 Route::get('/contact', [ContactUsController::class, 'index'])->name('contact');
 Route::post('/contactus', [ContactUsController::class, 'store'])->name('contactus');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
@@ -39,13 +39,13 @@ Route::get('/shopDetail/{id}', [ShopdetailsController::class, 'index'])->name('s
 //Route::get('/profile', [PortfolioController::class, 'index'])->name('profile');
 Route::get('/singleportfolio', [singleportfolioController::class, 'index'])->name('portfolio');
 
-Route::get('/admin-dashboard', function () {
-    return view('admin.index');
-})->middleware(['auth', 'verified'])->name('admin-dashboard');
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/admin', function(){
+    return view('admin.index');
+})->middleware(['auth', 'verified'])->name('admin_dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -55,11 +55,6 @@ Route::middleware('auth')->group(function () {
 
 Route::get('add_categories', [CategoryController::class, 'index']);
 require __DIR__.'/auth.php';
-
-
-Route::get('/admin', function(){
-    return view('admin.index');
-});
 
 
 Route::get('/addCategory', [CategoryController::class, 'index'])->name('addCategory');

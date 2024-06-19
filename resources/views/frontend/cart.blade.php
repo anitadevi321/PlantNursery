@@ -2,6 +2,7 @@
 
 @section('content')
 
+
     <!-- ##### Header Area Start ##### -->
    
     <!-- ##### Header Area End ##### -->
@@ -26,6 +27,7 @@
             </div>
         </div>
     </div>
+    <p>{{ $allCartContent }}</>
     <!-- ##### Breadcrumb Area End ##### -->
 
     <!-- ##### Cart Area Start ##### -->
@@ -45,10 +47,11 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($allCartContent as $item)
                                 <tr>
                                     <td class="cart_product_img">
                                         <a href="#"><img src="img/bg-img/34.jpg" alt="Product"></a>
-                                        <h5>Recuerdos Plant</h5>
+                                        <h5>{{ $item->name}}</h5>
                                     </td>
                                     <td class="qty">
                                         <div class="quantity">
@@ -57,10 +60,11 @@
                                             <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-plus" aria-hidden="true"></i></span>
                                         </div>
                                     </td>
-                                    <td class="price"><span>$9.99</span></td>
-                                    <td class="total_price"><span>$9.99</span></td>
+                                    <td class="price"><span>{{ $item->price }}</span></td>
+                                    <td class="total_price"><span>{{ $item->price }}</span></td>
                                     <td class="action"><a href="#"><i class="icon_close"></i></a></td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
