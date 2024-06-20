@@ -10,7 +10,7 @@
     <div class="breadcrumb-area">
         <!-- Top Breadcrumb Area -->
         <div class="top-breadcrumb-area bg-img bg-overlay d-flex align-items-center justify-content-center" style="background-image: url(img/bg-img/24.jpg);">
-            <h2>Cart</h2>
+    
         </div>
 
         <div class="container">
@@ -34,13 +34,13 @@
             <div class="row">
                 <div class="col-12">
                     <div class="cart-table clearfix">
-                        <table class="table table-responsive">
+                        <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>Products</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
-                                    <th>TOTAL</th>
+                                    <th>Remove</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -59,7 +59,6 @@
                                         </div>
                                     </td>
                                     <td class="price"><span>{{ $item->price }}</span></td>
-                                    <td class="total_price"><span>{{ $item->price }}</span></td>
                                     <td class="action"><a href="#"><i class="icon_close"></i></a></td>
                                 </tr>
                                 @endforeach
@@ -68,9 +67,7 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
-
                 <!-- Coupon Discount -->
                 <div class="col-12 col-lg-6">
                     <div class="coupon-discount mt-70">

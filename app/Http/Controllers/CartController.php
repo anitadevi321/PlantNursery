@@ -8,17 +8,17 @@ use App\Models\product;
 use Illuminate\Support\Facades\Session;
 class CartController extends Controller
 {
+   //stroe products in cart
    public function store(Request $request)
    {
       $qty = $request->qty ?? 1;
       $product= product::find($request->product_id);
+
      $productAllreadyExist= false;
       if(Cart::count() > 0)
       {
          $sessionId = Session::getId();
-         //echo $sessionId;die;
          $cartcontent= cart::content();
-         //echo $cartcontent;die;
          foreach($cartcontent as $item){
             if($item->id == $request->product_id)
             {
@@ -44,6 +44,7 @@ class CartController extends Controller
          }
    }
 
+   // show cart page
    public function index(){
       $allCartContent = Cart::content();
       $total= cart::count();
