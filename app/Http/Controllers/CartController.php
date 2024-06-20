@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Cart;
 use App\Models\product;
+use Illuminate\Support\Facades\Session;
 class CartController extends Controller
 {
-  
    public function store(Request $request)
    {
       $qty = $request->qty ?? 1;
@@ -15,8 +15,10 @@ class CartController extends Controller
      $productAllreadyExist= false;
       if(Cart::count() > 0)
       {
+         $sessionId = Session::getId();
+         //echo $sessionId;die;
          $cartcontent= cart::content();
-         //echo $cartcontent->id;die;
+         //echo $cartcontent;die;
          foreach($cartcontent as $item){
             if($item->id == $request->product_id)
             {
@@ -37,17 +39,14 @@ class CartController extends Controller
                ],
                'weight' => 550,
            ]);
-           
-
-        // Redirect to 'cart' route with cart content
-       return redirect()->route('cart');
+               // Redirect to 'cart' route with cart content
+               return redirect()->route('cart');
          }
    }
 
-
    public function index(){
       $allCartContent = Cart::content();
+      $total= cart::count();
       return view('frontend.cart', compact('allCartContent'));
      }
-  
 }
