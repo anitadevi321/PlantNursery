@@ -99,6 +99,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 5000); // 5000 milliseconds = 5 seconds
     }
 
+    // if (elementExistsById('error')) {
+    //     setTimeout(function () {
+    //         var successMessage = document.getElementById('error');
+    //         if (successMessage) {
+    //             successMessage.style.display = 'none';
+    //         }
+    //     }, 5000); // 5000 milliseconds = 5 seconds
+    // }
+
     //fetch product with filter
     if (elementExistsByClass('FetchProductWithFilter')) {
         var elements = document.getElementsByClassName('FetchProductWithFilter');
@@ -121,34 +130,58 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function check_qty(productId, qty){
+        if(qty <= 8)
+            {
+                return true;
+            }
+            else{
+                return false;
+            }
+    }
 
-    
-    // if (elementExistsByClass('addToCart')) {
-    //     const addToCartButtons = document.getElementsByClassName('addToCart');
 
-    //     // Loop through each button and add an event listener
-    //     for (let i = 0; i < addToCartButtons.length; i++) {
-    //         addToCartButtons[i].addEventListener('click', function (event) {
-    //             event.preventDefault();
+    if (elementExistsByClass('add')) {
+        var addButtons = document.querySelectorAll('.add');
+        addButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var parentDiv = this.parentElement;
+                var qtyInput = parentDiv.querySelector('.qty-text');
+                var productId = qtyInput.getAttribute('product_id');
+                var qty = qtyInput.value;
+                if(qty < 10)
+                    {
+                        var qty= parseInt(qty) + 1;
+                        qtyInput.value = qty;
 
-    //             var productId = this.getAttribute('id');
+                        var result= check_qty(productId, qty);
+                        if(result == false)
+                            {
+                                document.getElementById('error').innerHTML= "product out of stock";
+                            }
+                        console.log(result);
+                    }
+                    else{
+                        document.getElementById('error').innerHTML= "product out of stock";
+                    }
+            });
+        });
+    }
 
-    //             axios({
-    //                 method: 'post',
-    //                 url: '/add_to_cart',
-    //                 data: { product_id: productId }
-    //             })
-    //             .then(function (response) {
-    //                 console.log(response.data); // Handle the response data
-    //                 // You can also show a success message to the user here
-    //             })
-    //             .catch(function (error) {
-    //                 console.error(error); // Handle the error
-    //                 // You can also show an error message to the user here
-    //             });
-    //         });
-    //     }
-    // }
+    if (elementExistsByClass('sub')) {
+        var addButtons = document.querySelectorAll('.sub');
+        addButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var parentDiv = this.parentElement;
+                var qtyInput = parentDiv.querySelector('.qty-text');
+                var qty = qtyInput.value;
+                if(qty > 1)
+                    {
+                        qtyInput.value = parseInt(qty) - 1;
+                    }
+            });
+        });
+    }
 });
 
 

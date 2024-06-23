@@ -81,17 +81,14 @@
                             <!-- Add to Cart Form -->
                             <form action="{{ route('addcart') }}" class="cart clearfix d-flex align-items-center" method="post">
                                 @csrf
-                                <div class="quantity">
-                                    <!-- <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                                        <input type="number" class="qty-text" id="qty" step="1" min="1" max="12" name="quantity" value="1">
-                                        <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-plus" aria-hidden="true"></i></span> -->
+                                <!-- <div class="quantity">
                                     <label for="qty">Quentity:</label>
                                     <select name="qty" id="qty">
                                         @for ($i = 1; $i <= $product->stock; $i++) 
                                         <option value="{{ $i }}">{{ $i }}</option>
                                         @endfor
                                     </select>
-                                </div>
+                                </div> -->
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <button type="submit" class="btn alazea-btn ml-15">Add to cart</button>
                             </form>
@@ -101,6 +98,12 @@
                                 <a href="#" class="compare-btn ml-15"><i class="arrow_left-right_alt"></i></a>
                             </div>
                         </div>
+
+                        @if(session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
 
                         <div class="products--meta">
                             <p><span>SKU:</span> <span>CT201807</span></p>

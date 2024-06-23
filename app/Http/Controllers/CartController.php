@@ -11,43 +11,40 @@ class CartController extends Controller
    //stroe products in cart
    public function store(Request $request)
    {
-      $qty = $request->qty ?? 1;
-      $product= product::find($request->product_id);
-
-     $productAllreadyExist= false;
-      if(Cart::count() > 0)
-      {
-         $sessionId = Session::getId();
-         $cartcontent= cart::content();
-         foreach($cartcontent as $item){
-            if($item->id == $request->product_id)
-            {
-               $productAllreadyExist= true;
-               echo "product already in cart";
-            }
-         }
-      }
-         if($productAllreadyExist == false)
-         {
-            Cart::add([
-               'id' => $request->product_id,
-               'name' => $product->name,
-               'qty' => $qty,
-               'price' => $product->price,
-               'attributes' => [
-                   'image' => $product->image, // Assuming 'image_url' is the attribute storing the image URL
-               ],
-               'weight' => 550,
-           ]);
-               // Redirect to 'cart' route with cart content
-               return redirect()->route('cart');
-         }
+       $product_id = $request->product_id;
+       $product = Product::find($product_id); // Ensure correct model name capitalization
+       $qty = 1;
+   
+       // Retrieve cart from session
+       $cart = $request->session()->get('cart', []);
+   
+       if (isset($cart[$product_id])) {
+           return redirect()->route('cart')->with('message', 'Product already in cart');
+       } else {
+           if ($product->status == 1 && $product->stock >= 1) {
+               // Add product to cart
+               $cart[$product_id] = [
+                   'qty' => $qty,
+                   'name' => $product->name,
+                   'image' => $product->image,
+                   'price' => $product->price,
+                   'stock' => $product->stock
+               ];
+   
+               // Store updated cart in session
+               $request->session()->put('cart', $cart);
+   
+               return redirect()->route('cart')->with('message', 'Product added to cart successfully');
+           } else {
+               return redirect()->back()->with('error', 'Product out of stock');
+           }
+       }
    }
-
+   
    // show cart page
-   public function index(){
-      $allCartContent = Cart::content();
+   public function index(Request $request){
+      $cart= $request->session()->get('cart', []);
       $total= cart::count();
-      return view('frontend.cart', compact('allCartContent'));
+      return view('frontend.cart', compact('cart'));
      }
 }
