@@ -69,17 +69,18 @@
                                                 <i class="fa fa-minus" aria-hidden="true" ></i>
                                             </span>
                                             <input type="number" class="qty-text" id="qty" product_id= "{{ $key }}" step="1" min="1" max="99"
-                                                name="quantity" value="1">
+                                                name="quantity" value="{{ $value['qty'] }}">
                                             <span class="qty-plus add" >
                                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                             </span>
+                                            <span class="text-danger error" id="error"></span>
                                         </div>
                                     </div>
-                                   <span class="text-danger" id="error"></span>
+                                   
                                 </td>
                                 <td class="price"><span>{{ $value['price'] }}</span></td>
-                                <td class="price"><span>{{ $value['price']*$value['qty'] }}</span></td>
-                                <td class="action"><a href="#"><i class="icon_close"></i></a></td>
+                                <td class="price"><span id="total_price">{{ $value['price']*$value['qty'] }}</span></td>
+                                <td class="action"><a href="#"><i class="icon_close remove_product" value="{{ $key }}"></i></a></td>
                             </tr>
                             @endforeach
                         </tbody>

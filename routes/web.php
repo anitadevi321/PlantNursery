@@ -31,6 +31,9 @@ Route::get('/fetchAllProducts', [ShopController::class, 'index'])->name('fetchAl
 Route::get('/fetchProductWithFilter/{value}', [ShopController::class, 'getproduct']);
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::post('/add_to_cart', [CartController::class, 'store'])->name('addcart');
+Route::post('/check_qty', [CartController::class, 'check_qty'])->name('check_qty');
+Route::post('/update_cart', [CartController::class, 'update_cart'])->name('update_cart');
+Route::post('/remove_product', [CartController::class, 'remove_product'])->name('remove_product');
 Route::get('/contact', [ContactUsController::class, 'index'])->name('contact');
 Route::post('/contactus', [ContactUsController::class, 'store'])->name('contactus');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');

@@ -47,4 +47,79 @@ class CartController extends Controller
       $total= cart::count();
       return view('frontend.cart', compact('cart'));
      }
+
+
+     // check quantity
+     public function check_qty(Request $request)
+     {
+         $product = Product::find($request->productId);
+         $stock = $product->stock;
+     
+         if ($request->qty <= $product->stock) {
+             return response()->json([
+                 "status" => true,
+                 "total" => $stock
+             ]);
+         } else {
+             return response()->json([
+                 "status" => false,
+                 "total" => $stock,
+                 "message" => "Requested quantity is not available"
+             ]);
+         }
+     }
+
+     // update cart
+     public function update_cart(Request $request)
+     {
+         $cart = Session::get('cart', []);
+         $productId = $request->input('productId');
+         $qty = $request->input('qty');
+     
+         if (isset($cart[$productId])) {
+             // Update the quantity
+             $cart[$productId]['qty'] = $qty;
+     
+             // Retrieve the price from session
+            
+             $price = isset($cart[$productId]['price']) ? $cart[$productId]['price'] : null;
+             // Update the cart in the session
+             Session::put('cart', $cart);
+            
+             return response()->json([
+                 'status' => true,
+                 'message' => 'Cart updated successfully',
+                 'cart' => $cart,
+                 'price' => $price
+             ]);
+         } else {
+             return response()->json([
+                 'status' => false,
+                 'message' => 'Product not found in cart'
+             ]);
+         }
+     }
+     
+     // remove product into cart
+     public function remove_product(Request $request){
+        $productId= $request->productId;
+        $cart= session::get('cart', []);
+
+        if(isset($cart[$productId]))
+        {
+           unset($cart[$productId]);
+           session::put('cart', $cart);
+
+           return response()->json([
+            'status' => true,
+            'message' => 'product removed successfuly'
+           ]);
+
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'product not in cart'
+               ]);
+        }
+     }
 }
