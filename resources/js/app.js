@@ -169,13 +169,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     errorElement.innerHTML = ""; // Clear any previous error messages
     
                     try {
-                        var updateResult = await update_cart(productId, qty); // Await the cart update response
+                        var updateResult = await update_cart(productId, qty);
+                        //console.log(updateResult.totalItems) // Await the cart update response
                         if (updateResult && updateResult.status === true) {
-                            // Cart updated successfully, do any additional UI updates if needed
+                            document.getElementById('total_price').innerHTML = qty * updateResult.price;
+                           document.getElementById('totalItems').innerHTML = 'Subtotal('+ updateResult.totalItems + 'items)';
                         } else {
                             console.error('Failed to update cart');
                         }
-                    } catch (error) {
+                    } catch (error){
                         console.error('Error updating cart', error);
                     }
                 } else {
@@ -203,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var newQty = qty - 1;
                     qtyInput.value = newQty;
                     errorElement.style.display = 'none';
-
+                    
                     var updateResult = await update_cart(productId, newQty); // Await the cart update response
                     if (updateResult && updateResult.status === true) {
                         document.getElementById('total_price').innerHTML = newQty * updateResult.price;

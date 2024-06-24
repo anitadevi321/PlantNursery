@@ -44,8 +44,14 @@ class CartController extends Controller
    // show cart page
    public function index(Request $request){
       $cart= $request->session()->get('cart', []);
-      $total= cart::count();
-      return view('frontend.cart', compact('cart'));
+
+      $totalItems= 0;
+      $totalprice= 0;
+      foreach($cart as $item){
+        $totalItems += $item['qty'];
+        $totalprice += $item['qty'] * $item['price'];
+      }
+      return view('frontend.cart', compact('cart', 'totalItems', 'totalprice'));
      }
 
 
@@ -83,6 +89,12 @@ class CartController extends Controller
              // Retrieve the price from session
             
              $price = isset($cart[$productId]['price']) ? $cart[$productId]['price'] : null;
+             $totalItems= 0;
+            $totalprice= 0;
+            foreach($cart as $item){
+                $totalItems += $item['qty'];
+                $totalprice += $item['qty'] * $item['price'];
+            }
              // Update the cart in the session
              Session::put('cart', $cart);
             
@@ -90,7 +102,8 @@ class CartController extends Controller
                  'status' => true,
                  'message' => 'Cart updated successfully',
                  'cart' => $cart,
-                 'price' => $price
+                 'price' => $price,
+                 'totalItems' => $totalItems
              ]);
          } else {
              return response()->json([
