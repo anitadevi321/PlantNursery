@@ -100,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
+    
     //fetch product with filter
     if (elementExistsByClass('FetchProductWithFilter')) {
         var elements = document.getElementsByClassName('FetchProductWithFilter');

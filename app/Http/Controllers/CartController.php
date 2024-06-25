@@ -53,8 +53,7 @@ class CartController extends Controller
       }
       return view('frontend.cart', compact('cart', 'totalItems', 'totalprice'));
      }
-
-
+     
      // check quantity
      public function check_qty(Request $request)
      {
