@@ -7,6 +7,8 @@
      Area End ##### -->
 
 <!-- ##### Breadcrumb Area Start ##### -->
+
+
 <div class="breadcrumb-area">
     <!-- Top Breadcrumb Area -->
     <div class="top-breadcrumb-area bg-img bg-overlay d-flex align-items-center justify-content-center"
@@ -55,12 +57,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($cart as $key=> $value)
+                            @foreach($cart as $item)
                             <tr>
                                 <td class="cart_product_img">
-                                    <a href="#"><img src="{{ asset('upload_images/products/'.$value['image'])}}"
+                                    <a href="#"><img src="{{ asset('upload_images/products/'.$item->image)}}"
                                             alt="Product"></a>
-                                    <h5>{{ $value['name']}}</h5>
+                                    <h5>{{ $item->name}}</h5>
                                 </td>
                                 <td class="qty">
                                     <div class="quantity">
@@ -68,8 +70,8 @@
                                             <span class="qty-minus sub">
                                                 <i class="fa fa-minus" aria-hidden="true"></i>
                                             </span>
-                                            <input type="number" class="qty-text" id="qty" product_id="{{ $key }}"
-                                                step="1" min="1" max="99" name="quantity" value="{{ $value['qty'] }}">
+                                            <input type="number" class="qty-text" id="qty" product_id="{{ $item->product_id }}"
+                                                step="1" min="1" max="99" name="quantity" value="{{ $item->quantity }}">
                                             <span class="qty-plus add">
                                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                             </span>
@@ -77,10 +79,10 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="price"><span>{{ $value['price'] }}</span></td>
-                                <td class="price"><span id="total_price">{{ $value['price']*$value['qty'] }}</span></td>
+                                <td class="price"><span>{{ $item->price }}</span></td>
+                                <td class="price"><span id="total_price">{{ $item->price * $item->quantity }}</span></td>
                                 <td class="action"><a href="#"><i class="icon_close remove_product"
-                                            value="{{ $key }}"></i></a></td>
+                                            value="{{ $item->product_id }}"></i></a></td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -110,8 +112,8 @@
                 <div class="cart-totals-area mt-70">
                     <h5 class="title--">Cart Total</h5>
                     <div class="subtotal d-flex justify-content-between">
-                        <h5 id="totalItems">Subtotal({{ $totalItems }} items)</h5>
-                        <h5 id="totalPrice">{{ $totalprice }}</h5>
+                        <h5 id="totalItems">Subtotal(2 items)</h5>
+                        <h5 id="totalPrice">$99.9</h5>
                     </div>
                     <div class="shipping d-flex justify-content-between">
                         <h5>Shipping</h5>

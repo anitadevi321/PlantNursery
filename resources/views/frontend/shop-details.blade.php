@@ -79,7 +79,7 @@
 
                         <div class="cart--area d-flex flex-wrap align-items-center">
                             <!-- Add to Cart Form -->
-                            <form action="{{ route('addcart') }}" class="cart clearfix d-flex align-items-center" method="post">
+                            <form action="" id="addToCart" class="cart clearfix d-flex align-items-center" method="post">
                                 @csrf
                                 <!-- <div class="quantity">
                                     <label for="qty">Quentity:</label>
@@ -89,7 +89,7 @@
                                         @endfor
                                     </select>
                                 </div> -->
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <input type="hidden" name="product_id" value="{{ $product->id }}" id="product_id">
                                 <button type="submit" class="btn alazea-btn ml-15">Add to cart</button>
                             </form>
                             <!-- Wishlist & Compare -->

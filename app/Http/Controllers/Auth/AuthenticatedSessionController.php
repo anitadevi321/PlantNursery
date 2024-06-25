@@ -31,6 +31,11 @@ class AuthenticatedSessionController extends Controller
         {
             return redirect()->route('admin_dashboard');
         }
+        if($request->user()->usertype == 0)
+        {
+            session()->put('user_login_id', $request->user()->id);
+            //return redirect()->route('home');
+        }
         return redirect()->intended(route('dashboard', absolute: false)); 
        // return redirect()->route('home'); 
     }

@@ -247,6 +247,34 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
+
+
+    if (elementExistsById('addToCart')) {
+        // Get the form element
+        var form = document.getElementById('addToCart');
+
+        // Attach event listener to the form
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var productId = parseInt(document.getElementById('product_id').getAttribute('value')); // id 
+        
+            axios.post('/add_to_cart', {
+                productId: productId
+            })
+                .then(function (response) {
+                    // Handle success
+                    console.log(response);
+                 
+                    // Optionally, update the UI to reflect the removal
+                })
+                .catch(function (error) {
+                    // Handle error
+                    console.error('Failed to add product', error);
+                });
+
+        });
+    }
 });
 
 
