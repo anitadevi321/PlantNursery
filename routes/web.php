@@ -30,6 +30,7 @@ Route::get('/getproduct', [ShopController::class, 'getproduct']);
 Route::get('/fetchAllProducts', [ShopController::class, 'index'])->name('fetchAllProducts');
 Route::get('/fetchProductWithFilter/{value}', [ShopController::class, 'getproduct']);
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::get('/viewcart', [CartController::class, 'viewcart'])->name('viewcart');
 Route::post('/add_to_cart', [CartController::class, 'store'])->name('addcart');
 Route::post('/check_qty', [CartController::class, 'check_qty'])->name('check_qty');
 Route::post('/update_cart', [CartController::class, 'update_cart'])->name('update_cart');

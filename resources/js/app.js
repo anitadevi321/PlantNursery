@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    
+
     //fetch product with filter
     if (elementExistsByClass('FetchProductWithFilter')) {
         var elements = document.getElementsByClassName('FetchProductWithFilter');
@@ -161,24 +161,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 var productId = qtyInput.getAttribute('product_id');
                 var qty = parseInt(qtyInput.value) + 1;
                 var errorElement = parentDiv.querySelector('.error');
-    
+
                 var result = await check_qty(productId, qty); // Wait for the result
                 console.log(result.status);
-                
+
                 if (result && result.status === true && qty <= result.total) {
                     qtyInput.value = qty;
                     errorElement.innerHTML = ""; // Clear any previous error messages
-    
+
                     try {
                         var updateResult = await update_cart(productId, qty);
                         //console.log(updateResult.totalItems) // Await the cart update response
                         if (updateResult && updateResult.status === true) {
                             document.getElementById('total_price').innerHTML = qty * updateResult.price;
-                           document.getElementById('totalItems').innerHTML = 'Subtotal('+ updateResult.totalItems + 'items)';
+                            document.getElementById('totalItems').innerHTML = 'Subtotal(' + updateResult.totalItems + 'items)';
                         } else {
                             console.error('Failed to update cart');
                         }
-                    } catch (error){
+                    } catch (error) {
                         console.error('Error updating cart', error);
                     }
                 } else {
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
-    
+
 
     // decrease product quantity in cart
     if (elementExistsByClass('sub')) {
@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var newQty = qty - 1;
                     qtyInput.value = newQty;
                     errorElement.style.display = 'none';
-                    
+
                     var updateResult = await update_cart(productId, newQty); // Await the cart update response
                     if (updateResult && updateResult.status === true) {
                         document.getElementById('total_price').innerHTML = newQty * updateResult.price;
@@ -249,32 +249,97 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
+    // add to cart
     if (elementExistsById('addToCart')) {
-        // Get the form element
         var form = document.getElementById('addToCart');
-
-        // Attach event listener to the form
-        form.addEventListener('submit', function(event) {
+        form.addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent the default form submission
 
-            var productId = parseInt(document.getElementById('product_id').getAttribute('value')); // id 
-        
+            var productId = parseInt(document.getElementById('product_id').getAttribute('value'));
+
             axios.post('/add_to_cart', {
                 productId: productId
             })
                 .then(function (response) {
                     // Handle success
-                    console.log(response);
-                 
-                    // Optionally, update the UI to reflect the removal
+                    console.log(response.data.status);
+                    if (response.data.status === true) {
+                        window.location.href = '/cart'; // Redirect to cart page on successful addition
+                    } else {
+                        var data = response.data.data;
+                        var productId = data.product_id;
+                        var checkdata = '';
+                        // Retrieve existing cart data from local storage
+                        var cartData = JSON.parse(localStorage.getItem('cart'));
+                        if (cartData) {
+                            console.log(cartData.length);
+                            cartData.forEach(function (item, index) {
+                                console.log(item.data.product_id);
+                                if (item.data.product_id == productId) {
+                                    checkdata = "exist";
+                                }
+                            });
+                        } else {
+                            console.log('No data found in localStorage');
+                        }
+
+                        if (checkdata !== '') {
+                            console.log('already exist');
+                        }
+                        else {
+                            if (!Array.isArray(cartData)) {
+                                cartData = [];
+                            }
+
+                            console.log('not');
+                            cartData.push({
+                                data: data // Initial quantity, adjust as needed
+                            });
+
+                            localStorage.setItem('cart', JSON.stringify(cartData));
+                            console.log('Updated cart data:', cartData);
+                        }
+                    }
                 })
                 .catch(function (error) {
                     // Handle error
                     console.error('Failed to add product', error);
                 });
-
         });
     }
+
+    // return cart page 
+    if (elementExistsById('cart')) {
+        var cartElement = document.getElementById('cart');
+        cartElement.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            axios.get('/cart')
+                .then(function (response) {
+                    //console.log('Server response:', response.data);
+                    if (response.data.status === true) {
+                        var cartData = response.data.cart_data;
+                        var Data = cartData.map(function(item){
+                           
+                            return JSON.stringify(item);
+                        });
+                        //console.log(Data);
+                        window.location.href = '/viewcart?cartData=' + encodeURIComponent(Data);
+                    } else {
+                        var localCartData = JSON.parse(localStorage.getItem('cart')) || [];
+                        var cartData = localCartData.map(function(item){
+                            return JSON.stringify(item.data);
+                        });
+                        //console.log(cartData);
+                        window.location.href = '/viewcart?cartData=' + encodeURIComponent(cartData);
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error fetching data:', error);
+                });
+        });
+    }
+
 });
 
 

@@ -28,44 +28,54 @@ class CartController extends Controller
             'quantity' => $qty,
             'stock' => $product->stock,
         ]);
+       return response()->json([
+        'status' => true,
+        'message' => 'add product in cart successfuly'
+       ]);
     } else {
-        $cart = Cart::create([
-            'session_id' => Session::getId(),
+        $cart= [
             'product_id' => $productId,
             'name' => $product->name,
             'image' => $product->image,
             'price' => $product->price,
             'quantity' => $qty,
             'stock' => $product->stock,
+        ];
+
+        return response()->json([
+            'status' => false,
+            'data' => $cart
         ]);
     }
-    echo "add successfuly";
-    // Instead of echo, consider using a redirect with a success message
-    //return redirect()->back()->with('success', 'Item added to cart successfully');
+  
 }
    
    // show cart page
    public function index(Request $request)
-{
-    if(session()->has('user_login_id'))
     {
-        $userId = session('user_login_id'); // Fetch the user_login_id from session
-        $cart = cart::where('user_id', $userId)->get(); // Using correct case for model name and variable
-        dd($cart);
-        // If you want to use Eloquent's relationship, assuming Cart model has a product relationship
-        // $cart = Auth::user()->cart()->get();
-    }
-    else
-    {
-        $sessionId = session::getId(); // Get current session ID
-        $cart = cart::where('session_id', $sessionId)->get();
-        dd($cart); // Using correct case for model name and variable
+        if(session()->has('user_login_id'))
+        {
+            $userId = session('user_login_id'); // Fetch the user_login_id from session
+            $cart = cart::where('user_id', $userId)->get(); // Using correct case for model name and variable
+            
+            return response()->json([
+                'status' => true,
+                'cart_data' => $cart
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => false,
+            ]);
+        }
+
+        //return view('frontend.cart', compact('cart'));
     }
 
-    // Debug to check the retrieved cart items
-
-    return view('frontend.cart', compact('cart'));
-}
+    public function viewcart(){
+         return view('frontend.cart');
+    }
 
      
      // check quantity

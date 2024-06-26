@@ -8,7 +8,13 @@
 
 <!-- ##### Breadcrumb Area Start ##### -->
 
-
+@php  
+$encodedData = $_GET['cartData'];
+$cartdata= urldecode($encodedData);
+$data= json_decode($cartdata, true);
+echo "<pre>";
+    print_r($encodedData);exit;
+@endphp
 <div class="breadcrumb-area">
     <!-- Top Breadcrumb Area -->
     <div class="top-breadcrumb-area bg-img bg-overlay d-flex align-items-center justify-content-center"
