@@ -12,46 +12,46 @@ class CartController extends Controller
 {
    //stroe products in cart
    public function store(Request $request)
-{
-    $productId = $request->productId;
-    $product = Product::find($productId); // Ensure correct model name and import
+    {
+        $productId = $request->productId;
+        $product = Product::find($productId); // Ensure correct model name and import
 
-    $qty = 1; // You might want to fetch quantity from $request if needed
+        $qty = 1; // You might want to fetch quantity from $request if needed
 
-    if (session()->has('user_login_id')) {
-        $cart = Cart::create([
-            'user_id' => Auth::id(),
-            'product_id' => $productId,
-            'name' => $product->name,
-            'image' => $product->image,
-            'price' => $product->price,
-            'quantity' => $qty,
-            'stock' => $product->stock,
-        ]);
-       return response()->json([
-        'status' => true,
-        'message' => 'add product in cart successfuly'
-       ]);
-    } else {
-        $cart= [
-            'product_id' => $productId,
-            'name' => $product->name,
-            'image' => $product->image,
-            'price' => $product->price,
-            'quantity' => $qty,
-            'stock' => $product->stock,
-        ];
-
+        if (session()->has('user_login_id')) {
+            $cart = Cart::create([
+                'user_id' => Auth::id(),
+                'product_id' => $productId,
+                'name' => $product->name,
+                'image' => $product->image,
+                'price' => $product->price,
+                'quantity' => $qty,
+                'stock' => $product->stock,
+            ]);
         return response()->json([
-            'status' => false,
-            'data' => $cart
+            'status' => true,
+            'message' => 'add product in cart successfuly'
         ]);
+        } else {
+            $cart= [
+                'product_id' => $productId,
+                'name' => $product->name,
+                'image' => $product->image,
+                'price' => $product->price,
+                'quantity' => $qty,
+                'stock' => $product->stock,
+            ];
+
+            return response()->json([
+                'status' => false,
+                'data' => $cart
+            ]);
+        }
+    
     }
-  
-}
    
-   // show cart page
-   public function index(Request $request)
+   // check cart data
+   public function checkCartData(Request $request)
     {
         if(session()->has('user_login_id'))
         {
@@ -69,13 +69,12 @@ class CartController extends Controller
                 'status' => false,
             ]);
         }
-
-        //return view('frontend.cart', compact('cart'));
     }
 
-    public function viewcart(){
-         return view('frontend.cart');
-    }
+    // view cart page
+    public function index(){
+        return view('frontend.cart');
+     }
 
      
      // check quantity

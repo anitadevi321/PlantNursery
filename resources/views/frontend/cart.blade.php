@@ -8,13 +8,6 @@
 
 <!-- ##### Breadcrumb Area Start ##### -->
 
-@php  
-$encodedData = $_GET['cartData'];
-$cartdata= urldecode($encodedData);
-$data= json_decode($cartdata, true);
-echo "<pre>";
-    print_r($encodedData);exit;
-@endphp
 <div class="breadcrumb-area">
     <!-- Top Breadcrumb Area -->
     <div class="top-breadcrumb-area bg-img bg-overlay d-flex align-items-center justify-content-center"
@@ -62,35 +55,8 @@ echo "<pre>";
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach($cart as $item)
-                            <tr>
-                                <td class="cart_product_img">
-                                    <a href="#"><img src="{{ asset('upload_images/products/'.$item->image)}}"
-                                            alt="Product"></a>
-                                    <h5>{{ $item->name}}</h5>
-                                </td>
-                                <td class="qty">
-                                    <div class="quantity">
-                                        <div class="quantity">
-                                            <span class="qty-minus sub">
-                                                <i class="fa fa-minus" aria-hidden="true"></i>
-                                            </span>
-                                            <input type="number" class="qty-text" id="qty" product_id="{{ $item->product_id }}"
-                                                step="1" min="1" max="99" name="quantity" value="{{ $item->quantity }}">
-                                            <span class="qty-plus add">
-                                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                            </span>
-                                            <span class="text-danger error" id="error"></span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="price"><span>{{ $item->price }}</span></td>
-                                <td class="price"><span id="total_price">{{ $item->price * $item->quantity }}</span></td>
-                                <td class="action"><a href="#"><i class="icon_close remove_product"
-                                            value="{{ $item->product_id }}"></i></a></td>
-                            </tr>
-                            @endforeach
+                        <tbody id="tbody">
+                           
                         </tbody>
                     </table>
                 </div>
