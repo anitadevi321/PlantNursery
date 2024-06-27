@@ -157,41 +157,41 @@ document.addEventListener('DOMContentLoaded', function () {
     // increase product qty in cart
     if (elementExistsByClass('add')) {
         console.log('yes');
-        // var addButtons = document.querySelectorAll('.add');
-        // addButtons.forEach(function (button) {
-        //     button.addEventListener('click', async function () {
-        //         var parentDiv = this.parentElement;
-        //         var qtyInput = parentDiv.querySelector('.qty-text');
-        //         var productId = qtyInput.getAttribute('product_id');
-        //         var qty = parseInt(qtyInput.value) + 1;
-        //         var errorElement = parentDiv.querySelector('.error');
+        var addButtons = document.querySelectorAll('.add');
+        addButtons.forEach(function (button) {
+            button.addEventListener('click', async function () {
+                var parentDiv = this.parentElement;
+                var qtyInput = parentDiv.querySelector('.qty-text');
+                var productId = qtyInput.getAttribute('product_id');
+                var qty = parseInt(qtyInput.value) + 1;
+                var errorElement = parentDiv.querySelector('.error');
 
-        //         var result = await check_qty(productId, qty); // Wait for the result
-        //         console.log(result.status);
+                var result = await check_qty(productId, qty); // Wait for the result
+                console.log(result.status);
 
-        //         if (result && result.status === true && qty <= result.total) {
-        //             qtyInput.value = qty;
-        //             errorElement.innerHTML = ""; // Clear any previous error messages
+                if (result && result.status === true && qty <= result.total) {
+                    qtyInput.value = qty;
+                    errorElement.innerHTML = ""; // Clear any previous error messages
 
-        //             try {
-        //                 var updateResult = await update_cart(productId, qty);
-        //                 //console.log(updateResult.totalItems) // Await the cart update response
-        //                 if (updateResult && updateResult.status === true) {
-        //                     document.getElementById('total_price').innerHTML = qty * updateResult.price;
-        //                     document.getElementById('totalItems').innerHTML = 'Subtotal(' + updateResult.totalItems + 'items)';
-        //                 } else {
-        //                     console.error('Failed to update cart');
-        //                 }
-        //             } catch (error) {
-        //                 console.error('Error updating cart', error);
-        //             }
-        //         } else {
-        //             console.log("not available");
-        //             errorElement.innerHTML = `Only ${result.total} unit(s) allowed`;
-        //             errorElement.style.display = 'block';
-        //         }
-        //     });
-        // });
+                    try {
+                        var updateResult = await update_cart(productId, qty);
+                        //console.log(updateResult.totalItems) // Await the cart update response
+                        if (updateResult && updateResult.status === true) {
+                            document.getElementById('total_price').innerHTML = qty * updateResult.price;
+                            document.getElementById('totalItems').innerHTML = 'Subtotal(' + updateResult.totalItems + 'items)';
+                        } else {
+                            console.error('Failed to update cart');
+                        }
+                    } catch (error) {
+                        console.error('Error updating cart', error);
+                    }
+                } else {
+                    console.log("not available");
+                    errorElement.innerHTML = `Only ${result.total} unit(s) allowed`;
+                    errorElement.style.display = 'block';
+                }
+            });
+        });
     }
 
 
@@ -332,45 +332,46 @@ document.addEventListener('DOMContentLoaded', function () {
                     displayCartData(cartData);
                 }
             });
-
     }
+
+    function displayCartData(cart) {
+        var displayContainer = document.getElementById('tbody');
+        for (var i = 0; i < cart.length; i++) {
+            var cartdata = JSON.parse(cart[i]);
+            var imageUrl = `/upload_images/products/${cartdata.image}`;
+            var carthtml = `
+                                <tr>
+                                    <td class="cart_product_img">
+                                        <a href="#"> <img src="${imageUrl}" alt="${cartdata.name}"></a>
+                                        <h5>${cartdata.name}</h5>
+                                    </td>
+                                    <td class="qty">
+                                        <div class="quantity">
+                                            <div class="quantity">
+                                                <span class="qty-minus sub">
+                                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                                </span>
+                                                <input type="number" class="qty-text" id="qty" product_id="${cartdata.product_id}"
+                                                    step="1" min="1" max="99" name="quantity" value="${cartdata.quantity}">
+                                                <span class="qty-plus add">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                </span>
+                                                <span class="text-danger error" id="error"></span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="price"><span>${cartdata.price}</span></td>
+                                    <td class="price"><span id="total_price">${cartdata.price * cartdata.quantity}</span></td>
+                                    <td class="action"><a href="#"><i class="icon_close remove_product"
+                                                value="${cartdata.product_id}"></i></a></td>
+                                </tr>
+            `;
+            displayContainer.innerHTML += carthtml;
+        }
+    } 
 });
 
 
 // display cart
-function displayCartData(cart) {
-    var displayContainer = document.getElementById('tbody');
-    for (var i = 0; i < cart.length; i++) {
-        var cartdata = JSON.parse(cart[i]);
-        var imageUrl = `/upload_images/products/${cartdata.image}`;
-        var carthtml = `
-                            <tr>
-                                <td class="cart_product_img">
-                                    <a href="#"> <img src="${imageUrl}" alt="${cartdata.name}"></a>
-                                    <h5>${cartdata.name}</h5>
-                                </td>
-                                <td class="qty">
-                                    <div class="quantity">
-                                        <div class="quantity">
-                                            <span class="qty-minus sub">
-                                                <i class="fa fa-minus" aria-hidden="true"></i>
-                                            </span>
-                                            <input type="number" class="qty-text" id="qty" product_id="${cartdata.product_id}"
-                                                step="1" min="1" max="99" name="quantity" value="${cartdata.quantity}">
-                                            <span class="qty-plus add">
-                                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                            </span>
-                                            <span class="text-danger error" id="error"></span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="price"><span>${cartdata.price}</span></td>
-                                <td class="price"><span id="total_price">${cartdata.price * cartdata.quantity}</span></td>
-                                <td class="action"><a href="#"><i class="icon_close remove_product"
-                                            value="${cartdata.product_id}"></i></a></td>
-                            </tr>
-        `;
-        displayContainer.innerHTML += carthtml;
-    }
-}
+
 

@@ -84,3 +84,8 @@ Route::get('/payment', function(){
 
 Route::get('stripe', [StripeController::class, 'index']);
 Route::post('stripe/create-charge', [StripeController::class, 'createCharge'])->name('stripe.create-charge');
+
+
+Route::get('/getLocation', function(){
+    return view('google_location');
+});
