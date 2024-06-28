@@ -81,7 +81,7 @@ class CartController extends Controller
      public function check_qty(Request $request)
      {
          $product = Product::find($request->productId);
-         $stock = $product->stock;
+        $stock = $product->stock;
      
          if ($request->qty <= $product->stock) {
              return response()->json([
@@ -100,32 +100,19 @@ class CartController extends Controller
      // update cart
      public function update_cart(Request $request)
      {
-         $cart = Session::get('cart', []);
-         $productId = $request->input('productId');
-         $qty = $request->input('qty');
+         $productId = $request->productId;
+         $cartProduct = Cart::where('product_id', $productId)->get();
+
+        $price= $cartProduct->price;
+         if ($cartProduct) {
+             $cartProduct->update([
+                 'quantity' => $request->qty,
+             ]);
      
-         if (isset($cart[$productId])) {
-             // Update the quantity
-             $cart[$productId]['qty'] = $qty;
-     
-             // Retrieve the price from session
-            
-             $price = isset($cart[$productId]['price']) ? $cart[$productId]['price'] : null;
-             $totalItems= 0;
-            $totalprice= 0;
-            foreach($cart as $item){
-                $totalItems += $item['qty'];
-                $totalprice += $item['qty'] * $item['price'];
-            }
-             // Update the cart in the session
-             Session::put('cart', $cart);
-            
              return response()->json([
                  'status' => true,
                  'message' => 'Cart updated successfully',
-                 'cart' => $cart,
-                 'price' => $price,
-                 'totalItems' => $totalItems
+                 'price' => $price
              ]);
          } else {
              return response()->json([
@@ -134,6 +121,7 @@ class CartController extends Controller
              ]);
          }
      }
+     
      
      // remove product into cart
      public function remove_product(Request $request){

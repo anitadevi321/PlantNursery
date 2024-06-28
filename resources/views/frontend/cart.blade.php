@@ -1,10 +1,6 @@
 @extends('main')
 
 @section('content')
-<!-- ##### Header Area Start ##### -->
-
-<!-- ##### Header 
-     Area End ##### -->
 
 <!-- ##### Breadcrumb Area Start ##### -->
 

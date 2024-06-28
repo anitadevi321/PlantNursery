@@ -126,73 +126,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // check quantity
-    async function check_qty(productId, qty) {
-        try {
-            const response = await axios.post('/check_qty', {
-                productId: productId,
-                qty: qty
-            });
-            return response.data; // Returning the response data directly
-        } catch (error) {
-            console.error(error);
-            return null; // Return null in case of an error
-        }
-    }
+    
+ 
 
-    // update cart
-    async function update_cart(productId, qty) {
-        try {
-            const response = await axios.post('/update_cart', {
-                productId: productId,
-                qty: qty
-            });
-            return response.data; // Return the response data directly
-        } catch (error) {
-            console.error(error);
-            return null; // Return null in case of an error
-        }
-    }
-
-    // increase product qty in cart
-    if (elementExistsByClass('add')) {
-        console.log('yes');
-        var addButtons = document.querySelectorAll('.add');
-        addButtons.forEach(function (button) {
-            button.addEventListener('click', async function () {
-                var parentDiv = this.parentElement;
-                var qtyInput = parentDiv.querySelector('.qty-text');
-                var productId = qtyInput.getAttribute('product_id');
-                var qty = parseInt(qtyInput.value) + 1;
-                var errorElement = parentDiv.querySelector('.error');
-
-                var result = await check_qty(productId, qty); // Wait for the result
-                console.log(result.status);
-
-                if (result && result.status === true && qty <= result.total) {
-                    qtyInput.value = qty;
-                    errorElement.innerHTML = ""; // Clear any previous error messages
-
-                    try {
-                        var updateResult = await update_cart(productId, qty);
-                        //console.log(updateResult.totalItems) // Await the cart update response
-                        if (updateResult && updateResult.status === true) {
-                            document.getElementById('total_price').innerHTML = qty * updateResult.price;
-                            document.getElementById('totalItems').innerHTML = 'Subtotal(' + updateResult.totalItems + 'items)';
-                        } else {
-                            console.error('Failed to update cart');
-                        }
-                    } catch (error) {
-                        console.error('Error updating cart', error);
-                    }
-                } else {
-                    console.log("not available");
-                    errorElement.innerHTML = `Only ${result.total} unit(s) allowed`;
-                    errorElement.style.display = 'block';
-                }
-            });
-        });
-    }
+    
 
 
     // decrease product quantity in cart
@@ -297,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             console.log('not');
                             cartData.push({
-                                data: data // Initial quantity, adjust as needed
+                                data // Initial quantity, adjust as needed
                             });
 
                             localStorage.setItem('cart', JSON.stringify(cartData));
@@ -314,14 +251,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // return cart page 
     if (elementExistsById('cart')) {
-       // console.log('yes');
         axios.get('/checkCartData')
             .then(function (response) {
                 if (response.data.status === true) {
-                    var Data = response.data.cart_data;
+                    var localCartData = JSON.parse(localStorage.getItem('cart')) || [];
+                    var cartData = localCartData.map(function (item) {
+                        return item.data;
+                    });
+                    var Data = response.data.cart_data.concat(cartData);
                     var cartData = Data.map(function (item) {
                         return JSON.stringify(item);
                     });
+
                     displayCartData(cartData);
                 }
                 else {
@@ -333,45 +274,146 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
     }
-
-    function displayCartData(cart) {
-        var displayContainer = document.getElementById('tbody');
-        for (var i = 0; i < cart.length; i++) {
-            var cartdata = JSON.parse(cart[i]);
-            var imageUrl = `/upload_images/products/${cartdata.image}`;
-            var carthtml = `
-                                <tr>
-                                    <td class="cart_product_img">
-                                        <a href="#"> <img src="${imageUrl}" alt="${cartdata.name}"></a>
-                                        <h5>${cartdata.name}</h5>
-                                    </td>
-                                    <td class="qty">
-                                        <div class="quantity">
-                                            <div class="quantity">
-                                                <span class="qty-minus sub">
-                                                    <i class="fa fa-minus" aria-hidden="true"></i>
-                                                </span>
-                                                <input type="number" class="qty-text" id="qty" product_id="${cartdata.product_id}"
-                                                    step="1" min="1" max="99" name="quantity" value="${cartdata.quantity}">
-                                                <span class="qty-plus add">
-                                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                                </span>
-                                                <span class="text-danger error" id="error"></span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="price"><span>${cartdata.price}</span></td>
-                                    <td class="price"><span id="total_price">${cartdata.price * cartdata.quantity}</span></td>
-                                    <td class="action"><a href="#"><i class="icon_close remove_product"
-                                                value="${cartdata.product_id}"></i></a></td>
-                                </tr>
-            `;
-            displayContainer.innerHTML += carthtml;
-        }
-    } 
 });
 
 
 // display cart
+function displayCartData(cart) {
+    var displayContainer = document.getElementById('tbody');
+    for (var i = 0; i < cart.length; i++) {
+        var cartdata = JSON.parse(cart[i]);
+        var imageUrl = `/upload_images/products/${cartdata.image}`;
+        var carthtml = `
+                            <tr>
+                                <td class="cart_product_img">
+                                    <a href="#"> <img src="${imageUrl}" alt="${cartdata.name}"></a>
+                                    <h5>${cartdata.name}</h5>
+                                </td>
+                                <td class="qty">
+                                    <div class="quantity">
+                                        <div class="quantity">
+                                            <span class="qty-minus sub">
+                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                            </span>
+                                            <input type="number" class="qty-text" id="qty" product_id="${cartdata.product_id}"
+                                                step="1" min="1" max="99" name="quantity" value="${cartdata.quantity}">
+                                            <span class="qty-plus add">
+                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                            </span>
+                                            <span class="text-danger error" id="error"></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="price"><span>${cartdata.price}</span></td>
+                                <td class="price"><span id="total_price">${cartdata.price * cartdata.quantity}</span></td>
+                                <td class="action"><a href="#"><i class="icon_close remove_product"
+                                            value="${cartdata.product_id}"></i></a></td>
+                            </tr>
+        `;
+        displayContainer.innerHTML += carthtml;
+    }
+
+   // increase product qty in cart
+   if (elementExistsByClass('add')) {
+    console.log('yes');
+    var addButtons = document.querySelectorAll('.add');
+    addButtons.forEach(function (button) {
+        button.addEventListener('click', async function () {
+            var parentDiv = this.parentElement;
+            var qtyInput = parentDiv.querySelector('.qty-text');
+            var productId = qtyInput.getAttribute('product_id');
+            var qty = parseInt(qtyInput.value) + 1;
+            var errorElement = parentDiv.querySelector('.error');
+
+            var result = await check_qty(productId, qty); // Wait for the result
+
+                if (result && result.status === true && qty <= result.total) {
+                    qtyInput.value = qty;
+                    errorElement.innerHTML = ""; // Clear any previous error messages
+                    var updateResult = await update_cart(productId, qty);
+                    //  console.log(updateResult);
+                    //  if(updateResult.status === true)
+                    //     {
+                    //          document.getElementById('total_price').innerHTML = qty * updateResult.price;
+                    //     }
+                //     try {
+                //         var updateResult = await update_cart(productId, qty);
+                //         console.log(updateResult) // Await the cart update response
+                //         if (updateResult && updateResult.status === true) {
+                //             document.getElementById('total_price').innerHTML = qty * updateResult.price;
+                //             document.getElementById('totalItems').innerHTML = 'Subtotal(' + updateResult.totalItems + 'items)';
+                //         } else {
+                //             console.error('Failed to update cart');
+                //         }
+                //     } catch (error) {
+                //         console.error('Error updating cart', error);
+                //     }
+                // } 
+                    }
+                else {
+                        console.log("not available");
+                        errorElement.innerHTML = `Only ${result.total} unit(s) allowed`;
+                        errorElement.style.display = 'block';
+                }
+            });
+        });
+    }
+
+    // check quantity
+    async function check_qty(productId, qty) {
+        try {
+            const response = await axios.post('/check_qty', {
+                productId: productId,
+                qty: qty
+            });
+            return response.data; // Returning the response data directly
+        } catch (error) {
+            console.error(error);
+            return null; // Return null in case of an error
+        }
+    }
+
+     // update cart
+    async function update_cart(productId, qty) {
+        try {
+            const response = await axios.post('/update_cart', {
+                productId: productId,
+                qty: qty
+            });
+            console.log(response.data);
+        //     if (response.data.status === true) {
+        //         return {
+        //             status: true,
+        //             price: response.data.price
+        //         };  // Return true if response status is true
+        //     } else {
+        //         var localCartData = JSON.parse(localStorage.getItem('cart')) || [];
+        //         for (const item of localCartData) {
+        //             console.log(localCartData);
+        //             // if (item.data.product_id == productId) {
+        //             //      var result= item.data.quantity = qty; // Update the quantity
+        //             //      console.log('update');
+        //             //     // if(result)
+        //             //     // {
+        //             //     //     return {
+        //             //     //         status: true,
+        //             //     //         price: item.data.price
+        //             //     //     }; 
+        //             //     // }
+        //             //     break; // Exit the loop as soon as a match is found
+        //             // }
+        //         }
+        //         localStorage.setItem('cart', JSON.stringify(localCartData)); // Save updated data back to localStorage
+        //     }
+         } 
+        catch (error) {
+            console.error(error);
+            return null; // Return null in case of an error
+        }
+    }
+ 
+}
+
+
 
 
