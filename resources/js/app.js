@@ -126,70 +126,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    
- 
-
-    
-
-
-    // decrease product quantity in cart
-    if (elementExistsByClass('sub')) {
-        var subButtons = document.querySelectorAll('.sub');
-        subButtons.forEach(function (button) {
-            button.addEventListener('click', async function () { // Make the event listener function async
-                var parentDiv = this.closest('td');
-                var qtyInput = parentDiv.querySelector('.qty-text');
-                var productId = qtyInput.getAttribute('product_id');
-                var qty = parseInt(qtyInput.value);
-                var errorElement = parentDiv.querySelector('.error');
-
-                if (qty > 1) {
-                    var newQty = qty - 1;
-                    qtyInput.value = newQty;
-                    errorElement.style.display = 'none';
-
-                    var updateResult = await update_cart(productId, newQty); // Await the cart update response
-                    if (updateResult && updateResult.status === true) {
-                        document.getElementById('total_price').innerHTML = newQty * updateResult.price;
-                        errorElement.innerHTML = ""; // Clear any previous error messages
-                    } else {
-                        errorElement.innerHTML = "Failed to update cart";
-                    }
-                }
-            });
-        });
-    }
-
-    // remove product from cart
-    function removeProductFromCart(productId) {
-        axios.post('/remove_product', {
-            productId: productId
-        })
-            .then(function (response) {
-                // Handle success
-                console.log('Product removed successfully');
-                window.location.href = '/cart';
-                // Optionally, update the UI to reflect the removal
-            })
-            .catch(function (error) {
-                // Handle error
-                console.error('Failed to remove product', error);
-            });
-    }
-
-    if (elementExistsByClass('remove_product')) {
-        var removeButton = document.querySelectorAll('.remove_product');
-        removeButton.forEach(function (element) {
-            element.addEventListener('click', function (event) {
-                event.preventDefault();
-                var productId = this.getAttribute('value');
-                console.log(productId);
-                removeProductFromCart(productId)
-            });
-        });
-    }
-
-
     // add to cart
     if (elementExistsById('addToCart')) {
         var form = document.getElementById('addToCart');
@@ -203,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
                 .then(function (response) {
                     // Handle success
-                    console.log(response.data.status);
+                    //console.log(response.data.status);
                     if (response.data.status === true) {
                         window.location.href = '/cart'; // Redirect to cart page on successful addition
                     } else {
@@ -213,9 +149,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         // Retrieve existing cart data from local storage
                         var cartData = JSON.parse(localStorage.getItem('cart'));
                         if (cartData) {
-                            console.log(cartData.length);
+                            //console.log(cartData.length);
                             cartData.forEach(function (item, index) {
-                                console.log(item.data.product_id);
+                                //console.log(item.data.product_id);
                                 if (item.data.product_id == productId) {
                                     checkdata = "exist";
                                 }
@@ -306,58 +242,77 @@ function displayCartData(cart) {
                                 </td>
                                 <td class="price"><span>${cartdata.price}</span></td>
                                 <td class="price"><span id="total_price">${cartdata.price * cartdata.quantity}</span></td>
-                                <td class="action"><a href="#"><i class="icon_close remove_product"
+                                <td class="action"><a href="#" id="remove_cart"><i class="icon_close remove_product"
                                             value="${cartdata.product_id}"></i></a></td>
                             </tr>
         `;
         displayContainer.innerHTML += carthtml;
     }
 
-   // increase product qty in cart
-   if (elementExistsByClass('add')) {
-    console.log('yes');
-    var addButtons = document.querySelectorAll('.add');
-    addButtons.forEach(function (button) {
-        button.addEventListener('click', async function () {
-            var parentDiv = this.parentElement;
-            var qtyInput = parentDiv.querySelector('.qty-text');
-            var productId = qtyInput.getAttribute('product_id');
-            var qty = parseInt(qtyInput.value) + 1;
-            var errorElement = parentDiv.querySelector('.error');
+    // increase product qty in cart
+    if (elementExistsByClass('add')) {
+        var addButtons = document.querySelectorAll('.add');
+        addButtons.forEach(function (button) {
+            button.addEventListener('click', async function () {
+                var parentDiv = this.parentElement;
+                var qtyInput = parentDiv.querySelector('.qty-text');
+                var productId = qtyInput.getAttribute('product_id');
+                var qty = parseInt(qtyInput.value) + 1;
+                var errorElement = parentDiv.querySelector('.error');
 
-            var result = await check_qty(productId, qty); // Wait for the result
-
+                var result = await check_qty(productId, qty); // Wait for the result
+                // console.log(result);
                 if (result && result.status === true && qty <= result.total) {
-                    qtyInput.value = qty;
+
                     errorElement.innerHTML = ""; // Clear any previous error messages
                     var updateResult = await update_cart(productId, qty);
-                    //  console.log(updateResult);
-                    //  if(updateResult.status === true)
-                    //     {
-                    //          document.getElementById('total_price').innerHTML = qty * updateResult.price;
-                    //     }
-                //     try {
-                //         var updateResult = await update_cart(productId, qty);
-                //         console.log(updateResult) // Await the cart update response
-                //         if (updateResult && updateResult.status === true) {
-                //             document.getElementById('total_price').innerHTML = qty * updateResult.price;
-                //             document.getElementById('totalItems').innerHTML = 'Subtotal(' + updateResult.totalItems + 'items)';
-                //         } else {
-                //             console.error('Failed to update cart');
-                //         }
-                //     } catch (error) {
-                //         console.error('Error updating cart', error);
-                //     }
-                // } 
+
+                    if (updateResult.status === true) {
+                        qtyInput.value = qty;
+                        document.getElementById('total_price').innerHTML = qty * updateResult.price;
                     }
+                }
                 else {
-                        console.log("not available");
-                        errorElement.innerHTML = `Only ${result.total} unit(s) allowed`;
-                        errorElement.style.display = 'block';
+                    console.log("not available");
+                    errorElement.innerHTML = `Only ${result.total} unit(s) allowed`;
+                    errorElement.style.display = 'block';
                 }
             });
         });
     }
+
+    // decrease product quantity in cart
+    if (elementExistsByClass('sub')) {
+        var subButtons = document.querySelectorAll('.sub');
+        subButtons.forEach(function (button) {
+            button.addEventListener('click', async function () { // Make the event listener function async
+                var parentDiv = this.closest('td');
+                var qtyInput = parentDiv.querySelector('.qty-text');
+                var productId = qtyInput.getAttribute('product_id');
+                var qty = parseInt(qtyInput.value);
+
+                var errorElement = parentDiv.querySelector('.error');
+
+                if (qty > 1) {
+                    var newQty = qty - 1;
+
+
+                    var updateResult = await update_cart(productId, newQty); // Await the cart update response
+                    //console.log(updateResult);
+                    if (updateResult && updateResult.status === true) {
+                        qtyInput.value = newQty;
+                        errorElement.style.display = 'none';
+
+                        document.getElementById('total_price').innerHTML = newQty * updateResult.price;
+                        errorElement.innerHTML = ""; // Clear any previous error messages
+                    } else {
+                        errorElement.innerHTML = "Failed to update cart";
+                    }
+                }
+            });
+        });
+    }
+
 
     // check quantity
     async function check_qty(productId, qty) {
@@ -373,45 +328,87 @@ function displayCartData(cart) {
         }
     }
 
-     // update cart
+    // update cart
     async function update_cart(productId, qty) {
         try {
             const response = await axios.post('/update_cart', {
                 productId: productId,
                 qty: qty
             });
-            console.log(response.data);
-        //     if (response.data.status === true) {
-        //         return {
-        //             status: true,
-        //             price: response.data.price
-        //         };  // Return true if response status is true
-        //     } else {
-        //         var localCartData = JSON.parse(localStorage.getItem('cart')) || [];
-        //         for (const item of localCartData) {
-        //             console.log(localCartData);
-        //             // if (item.data.product_id == productId) {
-        //             //      var result= item.data.quantity = qty; // Update the quantity
-        //             //      console.log('update');
-        //             //     // if(result)
-        //             //     // {
-        //             //     //     return {
-        //             //     //         status: true,
-        //             //     //         price: item.data.price
-        //             //     //     }; 
-        //             //     // }
-        //             //     break; // Exit the loop as soon as a match is found
-        //             // }
-        //         }
-        //         localStorage.setItem('cart', JSON.stringify(localCartData)); // Save updated data back to localStorage
-        //     }
-         } 
+            if (response.data.status === true) {
+                return {
+                    status: true,
+                    price: response.data.price
+                };  // Return true if response status is true
+            } else {
+                var localCartData = JSON.parse(localStorage.getItem('cart')) || [];
+                // console.log(localCartData);
+                for (const item of localCartData) {
+                    if (item.data.product_id == productId) {
+                        var result = item.data.quantity = qty; // Update the quantity
+                        if (result) {
+                            return {
+                                status: true,
+                                price: item.data.price
+                            };
+                        }
+                        break; // Exit the loop as soon as a match is found
+                    }
+                }
+                localStorage.setItem('cart', JSON.stringify(localCartData)); // Save updated data back to localStorage
+            }
+        }
         catch (error) {
             console.error(error);
             return null; // Return null in case of an error
         }
     }
- 
+
+
+    if (elementExistsByClass('remove_product')) {
+        var removeButton = document.querySelectorAll('.remove_product');
+        removeButton.forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                var productId = this.getAttribute('value');
+                removeProductFromCart(productId)
+            });
+        });
+    }
+
+    // remove product from cart
+    function removeProductFromCart(productId) {
+        axios.post('/remove_product', {
+            productId: productId
+        })
+            .then(function (response) {
+                // Handle success
+                if (response.data.status === true) {
+                    return {
+                        status: true
+                    };
+                } else {
+                    var localCartData = JSON.parse(localStorage.getItem('cart')) || [];
+                    for (const item of localCartData) {
+                        if (item.data.product_id == productId) {
+                            var result = localStorage.removeItem(item.data.product_id); // Update the quantity
+                            if (result) {
+                                return {
+                                    status: true,
+                                    price: item.data.price
+                                };
+                            }
+                            break; // Exit the loop as soon as a match is found
+                        }
+                    }
+                    localStorage.setItem('cart', JSON.stringify(localCartData));
+                }
+            })
+            .catch(function (error) {
+                // Handle error
+                console.error('Failed to remove product', error);
+            });
+    }
 }
 
 

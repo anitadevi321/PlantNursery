@@ -101,10 +101,19 @@ class CartController extends Controller
      public function update_cart(Request $request)
      {
          $productId = $request->productId;
-         $cartProduct = Cart::where('product_id', $productId)->get();
-
-        $price= $cartProduct->price;
+         
+         // Get the first matching product in the cart
+         $cartProduct = Cart::where('product_id', $productId)->first();
+     
+         // Count the number of matching products
+         $count = Cart::where('product_id', $productId)->count();
+     
+        // print_r($count); exit;
+     
          if ($cartProduct) {
+             $price = $cartProduct->price;
+     
+             // Update the product quantity
              $cartProduct->update([
                  'quantity' => $request->qty,
              ]);
@@ -123,26 +132,28 @@ class CartController extends Controller
      }
      
      
+     
      // remove product into cart
      public function remove_product(Request $request){
         $productId= $request->productId;
-        $cart= session::get('cart', []);
 
-        if(isset($cart[$productId]))
-        {
-           unset($cart[$productId]);
-           session::put('cart', $cart);
+        $cartProduct = Cart::where('product_id', $productId)->first();
+     
+         // Count the number of matching products
+         $count = Cart::where('product_id', $productId)->count();
+        
+         if($cartProduct)
+         {
+            $cartProduct->delete();
 
-           return response()->json([
-            'status' => true,
-            'message' => 'product removed successfuly'
-           ]);
-
-        }else{
+            return response()->json([
+                'status' => true,
+            ]);
+         }
+         else{
             return response()->json([
                 'status' => false,
-                'message' => 'product not in cart'
-               ]);
-        }
+            ]);
+         }
      }
 }
