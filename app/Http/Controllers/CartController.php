@@ -104,11 +104,7 @@ class CartController extends Controller
          
          // Get the first matching product in the cart
          $cartProduct = Cart::where('product_id', $productId)->first();
-     
-         // Count the number of matching products
          $count = Cart::where('product_id', $productId)->count();
-     
-        // print_r($count); exit;
      
          if ($cartProduct) {
              $price = $cartProduct->price;
