@@ -126,8 +126,7 @@ class CartController extends Controller
              ]);
          }
      }
-     
-     
+
      
      // remove product into cart
      public function remove_product(Request $request){
@@ -152,4 +151,5 @@ class CartController extends Controller
             ]);
          }
      }
+     
 }

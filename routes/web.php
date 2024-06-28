@@ -86,6 +86,6 @@ Route::get('stripe', [StripeController::class, 'index']);
 Route::post('stripe/create-charge', [StripeController::class, 'createCharge'])->name('stripe.create-charge');
 
 
-Route::get('/getLocation', function(){
-    return view('google_location');
-});
+Route::get('/sign-in', function(){
+    return view('frontend.sign-in');
+})->name('sign-in');
