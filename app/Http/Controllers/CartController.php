@@ -72,13 +72,14 @@ class CartController extends Controller
     }
 
     // view cart page
-    public function index(){
+    public function index()
+    {
         return view('frontend.cart');
-     }
+    }
 
      // check quantity
      public function check_qty(Request $request)
-     {
+    {
          $product = Product::find($request->productId);
         $stock = $product->stock;
      
@@ -94,7 +95,7 @@ class CartController extends Controller
                  "message" => "Requested quantity is not available"
              ]);
          }
-     }
+    }
 
      // update cart
      public function update_cart(Request $request)
@@ -127,7 +128,8 @@ class CartController extends Controller
      }
      
      // remove product into cart
-     public function remove_product(Request $request){
+     public function remove_product(Request $request)
+     {
         $productId= $request->productId;
 
         $cartProduct = Cart::where('product_id', $productId)->first();
@@ -149,5 +151,4 @@ class CartController extends Controller
             ]);
          }
      }
-     
 }
